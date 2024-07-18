@@ -1,0 +1,6 @@
+usr/local/bin/zip-qt usr/bin
+share/pixmaps/zip32.xpm usr/share/pixmaps
+share/pixmaps/zip16.xpm usr/share/pixmaps
+share/pixmaps/zip128.png usr/share/pixmaps
+debian/zip-qt.desktop usr/share/applications
+debian/zip-qt.protocol usr/share/kde4/services/

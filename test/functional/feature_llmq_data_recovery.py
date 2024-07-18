@@ -5,7 +5,7 @@
 
 import time
 from test_framework.p2p import logger
-from test_framework.test_framework import DashTestFramework
+from test_framework.test_framework import ZipTestFramework
 from test_framework.util import force_finish_mnsync
 
 '''
@@ -22,11 +22,11 @@ llmq_test_v17 = 102
 llmq_type_strings = {llmq_test: 'llmq_test', llmq_test_v17: 'llmq_test_v17'}
 
 
-class QuorumDataRecoveryTest(DashTestFramework):
+class QuorumDataRecoveryTest(ZipTestFramework):
     def set_test_params(self):
         extra_args = [["-vbparams=testdummy:0:999999999999:10:8:6:5:-1"] for _ in range(9)]
-        self.set_dash_test_params(9, 7, fast_dip3_enforcement=True, extra_args=extra_args)
-        self.set_dash_llmq_test_params(4, 3)
+        self.set_zip_test_params(9, 7, fast_dip3_enforcement=True, extra_args=extra_args)
+        self.set_zip_llmq_test_params(4, 3)
 
     def restart_mn(self, mn, reindex=False, qvvec_sync=None, qdata_recovery_enabled=True):
         args = self.extra_args[mn.node.index] + ['-masternodeblsprivkey=%s' % mn.keyOperator,

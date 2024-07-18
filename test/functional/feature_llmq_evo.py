@@ -15,7 +15,7 @@ from io import BytesIO
 from test_framework.p2p import P2PInterface
 from test_framework.messages import CBlock, CBlockHeader, CCbTx, CMerkleBlock, FromHex, hash256, msg_getmnlistd, \
     QuorumId, ser_uint256
-from test_framework.test_framework import DashTestFramework
+from test_framework.test_framework import ZipTestFramework
 from test_framework.util import (
     assert_equal, p2p_port
 )
@@ -44,10 +44,10 @@ class TestP2PConn(P2PInterface):
         self.wait_for_mnlistdiff()
         return self.last_mnlistdiff
 
-class LLMQEvoNodesTest(DashTestFramework):
+class LLMQEvoNodesTest(ZipTestFramework):
     def set_test_params(self):
-        self.set_dash_test_params(5, 4, fast_dip3_enforcement=True, evo_count=7)
-        self.set_dash_llmq_test_params(4, 4)
+        self.set_zip_test_params(5, 4, fast_dip3_enforcement=True, evo_count=7)
+        self.set_zip_llmq_test_params(4, 4)
 
     def run_test(self):
         # Connect all nodes to node1 so that we always have the whole network connected

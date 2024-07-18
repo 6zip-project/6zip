@@ -185,7 +185,7 @@ class InvalidTxRequestTest(BitcoinTestFramework):
         assert_equal(expected_mempool, set(node.getrawmempool()))
 
         self.log.info('Test orphan pool overflow')
-        # this test is different with bitcoin due to dashpay/dash#3121
+        # this test is different with bitcoin due to 6zip-online/zip#3121
         # we have a limit based on size in megabytes, not by amount of txes
         # one tx is 91byte; 1Mb / 4451byte = 224; need to send at least 225
         orphan_tx_pool = [CTransaction() for _ in range(225)]

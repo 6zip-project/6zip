@@ -8,25 +8,90 @@
 #include <hash.h>
 #include <streams.h>
 #include <tinyformat.h>
+#include <pow.h>
+#include <util/strencodings.h>
+#include "logging.h"
 
+
+std::unordered_set<CBlockHeader, BlockHeaderHash, BlockHeaderEqual> blockSet;
+
+
+void CBlockHeader::GenerateUniqueID()
+{
+    uniqueID = Hash(hashPrevBlock.begin(), hashPrevBlock.end(), (unsigned char*)&nTime, (unsigned char*)&nTime + sizeof(nTime));
+}
+
+uint256 CBlockHeader::GetUniqueID() const
+{
+    return uniqueID;
+}
+
+void CBlockHeader::LogBlock() const
+{
+    std::cout << "Block Hash: " << GetHash().ToString() << std::endl;
+    std::cout << "Unique ID: " << uniqueID.ToString() << std::endl;
+}
+
+std::size_t BlockHeaderHash::operator()(const CBlockHeader& header) const
+{
+    return std::hash<std::string>()(header.GetUniqueID().ToString());
+}
+
+bool BlockHeaderEqual::operator()(const CBlockHeader& lhs, const CBlockHeader& rhs) const
+{
+    return lhs.GetUniqueID() == rhs.GetUniqueID();
+}
+
+bool IsDuplicateBlock(const CBlockHeader& block)
+{
+    return blockSet.find(block) != blockSet.end();
+}
+
+void AddBlockToSet(CBlockHeader& block)
+{
+    if (!IsDuplicateBlock(block))
+    {
+        block.GenerateUniqueID();
+        blockSet.insert(std::move(block)); // Use std::move here
+    }
+    else
+    {
+        std::cerr << "Duplicate block detected: " << block.GetUniqueID().ToString() << std::endl;
+    }
+}
 uint256 CBlockHeader::GetHash() const
 {
-    std::vector<unsigned char> vch(80);
+    std::vector<unsigned char> vch;
+    vch.reserve(80); // Reserve the correct size for block header
+
+    // Serialize the block header to the vector
     CVectorWriter ss(SER_GETHASH, PROTOCOL_VERSION, vch, 0);
-    ss << *this;
-    return HashX11((const char *)vch.data(), (const char *)vch.data() + vch.size());
+    ss << nVersion << hashPrevBlock << hashMerkleRoot << nTime << nBits << nNonce;
+
+    // Debug: Log serialized block header data
+    LogPrintf("Serialized block header: %s\n", HexStr(MakeUCharSpan(vch)));
+
+    // Use the new HashX7 function with the nonce
+    uint256 hash = HashX7((const char *)vch.data(), (const char *)vch.data() + vch.size(), nNonce);
+
+    // Debug: Log hash result
+    LogPrintf("Block hash: %s\n", hash.ToString());
+
+    return hash;
 }
+
 
 std::string CBlock::ToString() const
 {
     std::stringstream s;
-    s << strprintf("CBlock(hash=%s, ver=0x%08x, hashPrevBlock=%s, hashMerkleRoot=%s, nTime=%u, nBits=%08x, nNonce=%u, vtx=%u)\n",
+    s << strprintf("CBlock(hash=%s, ver=0x%08x, hashPrevBlock=%s, hashMerkleRoot=%s, nTime=%u, nBits=%08x, nNonce=%u, vtx=%u, uniqueID=%s)\n",
         GetHash().ToString(),
         nVersion,
         hashPrevBlock.ToString(),
         hashMerkleRoot.ToString(),
         nTime, nBits, nNonce,
-        vtx.size());
+        vtx.size(),
+        uniqueID.ToString()); // Include the unique ID here
     for (const auto& tx : vtx) {
         s << "  " << tx->ToString() << "\n";
     }

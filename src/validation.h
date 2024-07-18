@@ -197,6 +197,11 @@ void StopScriptCheckWorkerThreads();
 
 CTransactionRef GetTransaction(const CBlockIndex* const block_index, const CTxMemPool* const mempool, const uint256& hash, const Consensus::Params& consensusParams, uint256& hashBlock);
 
+
+void ValidateBlock(CBlockHeader& block);
+
+void ProcessNewBlock(CBlockHeader& block);
+
 double ConvertBitsToDouble(unsigned int nBits);
 /**
  * Due to difference in logic, the GetBlockSubsidy() has also different list of
@@ -661,7 +666,7 @@ protected:
     //! Manages the UTXO set, which is a reflection of the contents of `m_chain`.
     std::unique_ptr<CoinsViews> m_coins_views;
 
-    //! Dash
+    //! Zip
     const std::unique_ptr<llmq::CChainLocksHandler>& m_clhandler;
     const std::unique_ptr<llmq::CInstantSendManager>& m_isman;
     const std::unique_ptr<llmq::CQuorumBlockProcessor>& m_quorum_block_processor;

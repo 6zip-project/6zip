@@ -12,13 +12,13 @@ Checks LLMQs based ChainLocks
 
 import time
 
-from test_framework.test_framework import DashTestFramework
+from test_framework.test_framework import ZipTestFramework
 from test_framework.util import force_finish_mnsync, assert_equal, assert_raises_rpc_error
 
 
-class LLMQChainLocksTest(DashTestFramework):
+class LLMQChainLocksTest(ZipTestFramework):
     def set_test_params(self):
-        self.set_dash_test_params(5, 4, fast_dip3_enforcement=True)
+        self.set_zip_test_params(5, 4, fast_dip3_enforcement=True)
 
     def run_test(self):
 

@@ -15,14 +15,14 @@ and by having a higher relay fee on node 4.
 
 import time
 
-from test_framework.test_framework import DashTestFramework
+from test_framework.test_framework import ZipTestFramework
 from test_framework.util import set_node_times
 
 
-class LLMQ_IS_RetroactiveSigning(DashTestFramework):
+class LLMQ_IS_RetroactiveSigning(ZipTestFramework):
     def set_test_params(self):
         # -whitelist is needed to avoid the trickling logic on node0
-        self.set_dash_test_params(5, 4, [["-whitelist=127.0.0.1"], [], [], [], ["-minrelaytxfee=0.001"]], fast_dip3_enforcement=True)
+        self.set_zip_test_params(5, 4, [["-whitelist=127.0.0.1"], [], [], [], ["-minrelaytxfee=0.001"]], fast_dip3_enforcement=True)
 
     def run_test(self):
         self.activate_dip8()

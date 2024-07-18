@@ -10,11 +10,11 @@ BUILDDIR=${BUILDDIR:-$TOPDIR}
 BINDIR=${BINDIR:-$BUILDDIR/src}
 MANDIR=${MANDIR:-$TOPDIR/doc/man}
 
-BITCOIND=${BITCOIND:-$BINDIR/dashd}
-BITCOINCLI=${BITCOINCLI:-$BINDIR/dash-cli}
-BITCOINTX=${BITCOINTX:-$BINDIR/dash-tx}
-WALLET_TOOL=${WALLET_TOOL:-$BINDIR/dash-wallet}
-BITCOINQT=${BITCOINQT:-$BINDIR/qt/dash-qt}
+BITCOIND=${BITCOIND:-$BINDIR/zipd}
+BITCOINCLI=${BITCOINCLI:-$BINDIR/zip-cli}
+BITCOINTX=${BITCOINTX:-$BINDIR/zip-tx}
+WALLET_TOOL=${WALLET_TOOL:-$BINDIR/zip-wallet}
+BITCOINQT=${BITCOINQT:-$BINDIR/qt/zip-qt}
 
 [ ! -x $BITCOIND ] && echo "$BITCOIND not found or not executable." && exit 1
 
@@ -38,8 +38,8 @@ fi
 read -r -a BTCVER <<< "$($BITCOINCLI --version | head -n1 | awk -F'[ -]' '{ print $6, $7 }')"
 
 # Create a footer file with copyright content.
-# This gets autodetected fine for dashd if --version-string is not set,
-# but has different outcomes for dash-qt and dash-cli.
+# This gets autodetected fine for zipd if --version-string is not set,
+# but has different outcomes for zip-qt and zip-cli.
 echo "[COPYRIGHT]" > footer.h2m
 $BITCOIND --version | sed -n '1!p' >> footer.h2m
 

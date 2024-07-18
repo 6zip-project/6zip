@@ -10,7 +10,7 @@
 
 ## Reporting a Vulnerability
 
-To report security issues send an email to security@dash.org (not for support).
+To report security issues send an email to security@zip.online (not for support).
 
 The following keys may be used to communicate sensitive information to developers:
 

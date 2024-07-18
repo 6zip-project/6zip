@@ -2,19 +2,19 @@
 # Copyright (c) 2018-2024 The Dash Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
-"""Tests around dash governance."""
+"""Tests around zip governance."""
 
 import json
 
 from test_framework.messages import uint256_to_string
-from test_framework.test_framework import DashTestFramework
+from test_framework.test_framework import ZipTestFramework
 from test_framework.util import assert_equal, satoshi_round, set_node_times, wait_until
 
-class DashGovernanceTest (DashTestFramework):
+class ZipGovernanceTest (ZipTestFramework):
     def set_test_params(self):
         self.v20_start_time = 1417713500
         # using adjusted v20 deployment params to test an edge case where superblock maturity window is equal to deployment window size
-        self.set_dash_test_params(6, 5, [["-budgetparams=10:10:10", f"-vbparams=v20:{self.v20_start_time}:999999999999:10:8:6:5:0"]] * 6, fast_dip3_enforcement=True)
+        self.set_zip_test_params(6, 5, [["-budgetparams=10:10:10", f"-vbparams=v20:{self.v20_start_time}:999999999999:10:8:6:5:0"]] * 6, fast_dip3_enforcement=True)
 
     def prepare_object(self, object_type, parent_hash, creation_time, revision, name, amount, payment_address):
         proposal_rev = revision
@@ -26,7 +26,7 @@ class DashGovernanceTest (DashTestFramework):
             "end_epoch": proposal_time + 24 * 60 * 60,
             "payment_amount": float(amount),
             "payment_address": payment_address,
-            "url": "https://dash.org"
+            "url": "https://zip.online"
         }
         proposal_hex = ''.join(format(x, '02x') for x in json.dumps(proposal_template).encode())
         collateral_hash = self.nodes[0].gobject("prepare", parent_hash, proposal_rev, proposal_time, proposal_hex)
@@ -367,4 +367,4 @@ class DashGovernanceTest (DashTestFramework):
 
 
 if __name__ == '__main__':
-    DashGovernanceTest().main()
+    ZipGovernanceTest().main()

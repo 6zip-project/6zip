@@ -2,13 +2,13 @@
 # Copyright (c) 2018-2020 The Dash Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
-"""Tests around dash governance objects."""
+"""Tests around zip governance objects."""
 
 import json
 import time
 
 from test_framework.messages import uint256_to_string
-from test_framework.test_framework import DashTestFramework
+from test_framework.test_framework import ZipTestFramework
 from test_framework.util import assert_equal, assert_greater_than, assert_raises_rpc_error
 
 
@@ -22,9 +22,9 @@ def validate_object(prepared, rpc_prepared):
     assert_equal(prepared["data"], rpc_prepared["data"])
 
 
-class DashGovernanceTest (DashTestFramework):
+class ZipGovernanceTest (ZipTestFramework):
     def set_test_params(self):
-        self.set_dash_test_params(2, 1)
+        self.set_zip_test_params(2, 1)
 
     def prepare_object(self, object_type, parent_hash, creation_time, revision, name, amount):
         proposal_rev = revision
@@ -36,7 +36,7 @@ class DashGovernanceTest (DashTestFramework):
             "end_epoch": proposal_time + 24 * 60 * 60,
             "payment_amount": amount,
             "payment_address": self.nodes[0].getnewaddress(),
-            "url": "https://dash.org"
+            "url": "https://zip.online"
         }
         proposal_hex = ''.join(format(x, '02x') for x in json.dumps(proposal_template).encode())
         collateral_hash = self.nodes[0].gobject("prepare", parent_hash, proposal_rev, proposal_time, proposal_hex)
@@ -100,4 +100,4 @@ class DashGovernanceTest (DashTestFramework):
 
 
 if __name__ == '__main__':
-    DashGovernanceTest().main()
+    ZipGovernanceTest().main()

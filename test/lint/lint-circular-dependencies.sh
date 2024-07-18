@@ -23,7 +23,7 @@ EXPECTED_CIRCULAR_DEPENDENCIES=(
     "wallet/fees -> wallet/wallet -> wallet/fees"
     "wallet/wallet -> wallet/walletdb -> wallet/wallet"
     "node/coinstats -> validation -> node/coinstats"
-    # Dash
+    # Zip
     "coinjoin/server -> core_io -> evo/assetlocktx -> llmq/signing -> net_processing -> coinjoin/server"
     "coinjoin/coinjoin -> llmq/instantsend -> net_processing -> coinjoin/server -> coinjoin/coinjoin"
     "dsnotificationinterface -> llmq/chainlocks -> node/blockstorage -> dsnotificationinterface"

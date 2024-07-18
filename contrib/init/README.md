@@ -1,11 +1,11 @@
 Sample configuration files for:
 ```
-systemd: dashd.service
-Upstart: dashd.conf
-OpenRC:  dashd.openrc
-         dashd.openrcconf
-CentOS:  dashd.init
-macOS:   org.dash.dashd.plist
+systemd: zipd.service
+Upstart: zipd.conf
+OpenRC:  zipd.openrc
+         zipd.openrcconf
+CentOS:  zipd.init
+macOS:   org.zip.zipd.plist
 ```
 have been made available to assist packagers in creating node packages here.
 

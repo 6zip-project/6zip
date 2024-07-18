@@ -21,7 +21,7 @@ public:
     /** Add wallets that should be opened to list of chain clients. */
     virtual void Construct(NodeContext& node) const = 0;
 
-    // Dash Specific WalletInitInterface
+    // Zip Specific WalletInitInterface
     virtual void AutoLockMasternodeCollaterals() const = 0;
     virtual void InitCoinJoinSettings(const CoinJoinWalletManager& cjwalletman) const = 0;
     virtual bool InitAutoBackup() const = 0;

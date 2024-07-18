@@ -1,37 +1,37 @@
-Dash Core
+Zip Core
 ==========
 
-This is the official reference wallet for Dash digital currency and comprises the backbone of the Dash peer-to-peer network. You can [download Dash Core](https://www.dash.org/downloads/) or [build it yourself](#building) using the guides below.
+This is the official reference wallet for Zip digital currency and comprises the backbone of the Zip peer-to-peer network. You can [download Zip Core](https://www.zip.online/downloads/) or [build it yourself](#building) using the guides below.
 
 Running
 ---------------------
-The following are some helpful notes on how to run Dash Core on your native platform.
+The following are some helpful notes on how to run Zip Core on your native platform.
 
 ### Unix
 
 Unpack the files into a directory and run:
 
-- `bin/dash-qt` (GUI) or
-- `bin/dashd` (headless)
+- `bin/zip-qt` (GUI) or
+- `bin/zipd` (headless)
 
 ### Windows
 
-Unpack the files into a directory, and then run dash-qt.exe.
+Unpack the files into a directory, and then run zip-qt.exe.
 
 ### macOS
 
-Drag Dash Core to your applications folder, and then run Dash Core.
+Drag Zip Core to your applications folder, and then run Zip Core.
 
 ### Need Help?
 
-* See the [Dash documentation](https://docs.dash.org)
+* See the [Zip documentation](https://docs.zip.online)
 for help and more information.
-* Ask for help on [Dash Discord](http://staydashy.com)
-* Ask for help on the [Dash Forum](https://dash.org/forum)
+* Ask for help on [Zip Discord](http://stayzipy.com)
+* Ask for help on the [Zip Forum](https://zip.online/forum)
 
 Building
 ---------------------
-The following are developer notes on how to build Dash Core on your native platform. They are not complete guides, but include notes on the necessary libraries, compile flags, etc.
+The following are developer notes on how to build Zip Core on your native platform. They are not complete guides, but include notes on the necessary libraries, compile flags, etc.
 
 - [Dependencies](dependencies.md)
 - [macOS Build Notes](build-osx.md)
@@ -43,7 +43,7 @@ The following are developer notes on how to build Dash Core on your native platf
 
 Development
 ---------------------
-The Dash Core repo's [root README](/README.md) contains relevant information on the development process and automated testing.
+The Zip Core repo's [root README](/README.md) contains relevant information on the development process and automated testing.
 
 - [Developer Notes](developer-notes.md)
 - [Productivity Notes](productivity.md)
@@ -60,15 +60,15 @@ The Dash Core repo's [root README](/README.md) contains relevant information on 
 - [Benchmarking](benchmarking.md)
 
 ### Resources
-* See the [Dash Developer Documentation](https://dashcore.readme.io/)
+* See the [Zip Developer Documentation](https://zipcore.readme.io/)
   for technical specifications and implementation details.
-* Discuss on the [Dash Forum](https://dash.org/forum), in the Development & Technical Discussion board.
-* Discuss on [Dash Discord](http://staydashy.com)
-* Discuss on [Dash Developers Discord](http://chat.dashdevs.org/)
+* Discuss on the [Zip Forum](https://zip.online/forum), in the Development & Technical Discussion board.
+* Discuss on [Zip Discord](http://stayzipy.com)
+* Discuss on [Zip Developers Discord](http://chat.zipdevs.org/)
 
 ### Miscellaneous
 - [Assets Attribution](assets-attribution.md)
-- [dash.conf Configuration File](dash-conf.md)
+- [zip.conf Configuration File](zip-conf.md)
 - [Files](files.md)
 - [Fuzz-testing](fuzzing.md)
 - [I2P Support](i2p.md)

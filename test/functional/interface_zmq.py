@@ -7,7 +7,7 @@ import struct
 
 from test_framework.address import ADDRESS_BCRT1_UNSPENDABLE
 from test_framework.test_framework import BitcoinTestFramework
-from test_framework.messages import dashhash, hash256
+from test_framework.messages import ziphash, hash256
 from test_framework.util import assert_equal
 from time import sleep
 
@@ -16,8 +16,8 @@ ADDRESS = "tcp://127.0.0.1:28332"
 def hash256_reversed(byte_str):
     return hash256(byte_str)[::-1]
 
-def dashhash_reversed(byte_str):
-    return dashhash(byte_str)[::-1]
+def ziphash_reversed(byte_str):
+    return ziphash(byte_str)[::-1]
 
 class ZMQSubscriber:
     def __init__(self, socket, topic):
@@ -106,7 +106,7 @@ class ZMQTest (BitcoinTestFramework):
 
             # Should receive the generated raw block.
             block = self.rawblock.receive()
-            assert_equal(genhashes[x], dashhash_reversed(block[:80]).hex())
+            assert_equal(genhashes[x], ziphash_reversed(block[:80]).hex())
 
         if self.is_wallet_compiled():
             self.log.info("Wait for tx from second node")

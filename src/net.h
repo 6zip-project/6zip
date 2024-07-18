@@ -1331,7 +1331,7 @@ public:
     };
 
     // in bitcoin: m_tx_relay == nullptr if we're not relaying transactions with this peer
-    // in dash: m_tx_relay should never be nullptr, use `RelayAddrsWithConn() == false` instead
+    // in zip: m_tx_relay should never be nullptr, use `RelayAddrsWithConn() == false` instead
     std::unique_ptr<TxRelay> m_tx_relay{std::make_unique<TxRelay>()};
 
     // Used for headers announcements - unfiltered blocks to relay

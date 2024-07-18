@@ -2179,7 +2179,7 @@ struct IterationLogic::Impl {
                 os << "| ";
                 auto showUnstable = rErrorMedian >= 0.05;
                 if (showUnstable) {
-                    os << ":wavy_dash: ";
+                    os << ":wavy_zip: ";
                 }
                 os << fmt::MarkDownCode(mBench.name());
                 if (showUnstable) {

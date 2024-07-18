@@ -285,10 +285,10 @@ mkdir -p "$DISTSRC"
                     ${HOST_CXXFLAGS:+CXXFLAGS="${HOST_CXXFLAGS}"} \
                     ${HOST_LDFLAGS:+LDFLAGS="${HOST_LDFLAGS}"}
 
-    sed -i.old 's/-lstdc++ //g' {./,src/dashbls/,src/secp256k1/}{config.status,libtool}
+    sed -i.old 's/-lstdc++ //g' {./,src/zipbls/,src/secp256k1/}{config.status,libtool}
 
 
-    # Build Dash Core
+    # Build Zip Core
     make --jobs="$JOBS" ${V:+V=1}
 
     # Make macos-specific debug symbols
@@ -314,12 +314,12 @@ mkdir -p "$DISTSRC"
             ;;
     esac
 
-    # Setup the directory where our Dash Core build for HOST will be
+    # Setup the directory where our Zip Core build for HOST will be
     # installed. This directory will also later serve as the input for our
     # binary tarballs.
     INSTALLPATH="${PWD}/installed/${DISTNAME}"
     mkdir -p "${INSTALLPATH}"
-    # Install built Dash Core to $INSTALLPATH
+    # Install built Zip Core to $INSTALLPATH
     make install DESTDIR="${INSTALLPATH}" ${V:+V=1}
 
     case "$HOST" in

@@ -2,7 +2,7 @@ OpenBSD build guide
 ======================
 (updated for OpenBSD 6.7)
 
-This guide describes how to build dashd, dash-qt, and command-line utilities on OpenBSD.
+This guide describes how to build zipd, zip-qt, and command-line utilities on OpenBSD.
 
 Preparation
 -------------
@@ -18,7 +18,7 @@ pkg_add python # (select highest version, e.g. 3.8)
 pkg_add gmp
 pkg_add boost
 
-git clone https://github.com/dashpay/dash.git
+git clone https://github.com/6zip-online/zip.git
 ```
 
 See [dependencies.md](dependencies.md) for a complete overview.
@@ -49,7 +49,7 @@ from the root of the repository. Then set `BDB_PREFIX` for the next section:
 export BDB_PREFIX="$PWD/db4"
 ```
 
-### Building Dash Core
+### Building Zip Core
 
 **Important**: Use `gmake` (the non-GNU `make` will exit with an error).
 

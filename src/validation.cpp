@@ -726,7 +726,7 @@ bool MemPoolAccept::PreChecks(ATMPArgs& args, Workspace& ws)
             const CTransaction* ptxConflicting = m_pool.GetConflictTx(txin.prevout);
             if (ptxConflicting)
             {
-                // Transaction conflicts with mempool and RBF doesn't exist in Zip
+                // Transaction conflicts with mempool and RBF doesn't exist in 6Zip
                 return state.Invalid(TxValidationResult::TX_CONFLICT, "txn-mempool-conflict");
             }
         }
@@ -1169,31 +1169,24 @@ double ConvertBitsToDouble(unsigned int nBits)
     return dDiff;
 }
 
-
-
+/*
+NOTE:   unlike bitcoin we are using PREVIOUS block height here,
+        might be a good idea to change this to use prev bits
+        but current height to avoid confusion.
+*/
 //6ZIP
-	// Seed the random number generator with the current time
-	std::mt19937 rng(static_cast<unsigned int>(std::time(nullptr)));
+// Seed the random number generator with the current time
+std::mt19937 rng(static_cast<unsigned int>(std::time(nullptr)));
 
-	// Function to get a random reward between min and max
-	int getRandomReward(int min, int max) {
-	    std::uniform_int_distribution<int> dist(min, max);
-	    return dist(rng);
-	}
+// Function to get a random reward between min and max
+int getRandomReward(int min, int max) {
+    std::uniform_int_distribution<int> dist(min, max);
+    return dist(rng);
+}
 
-	    return rewards;
-	}
-
-	// Global variable to store hourly rewards
-	std::vector<CAmount> hourlyRewards = calculateHourlyRewards();
-
-	static std::pair<CAmount, CAmount> GetBlockSubsidyHelper(int nPrevBits, int nPrevHeight, const Consensus::Params& consensusParams, bool fV20Active)
-	{
-	    CAmount nSubsidyBase;
-
-	// Function to calculate rewards for 24 hours
-	std::vector<CAmount> calculateHourlyRewards() {
-	    std::vector<CAmount> rewards(HOURS_IN_A_DAY);
+// Function to calculate rewards for 24 hours
+std::vector<CAmount> calculateHourlyRewards() {
+    std::vector<CAmount> rewards(HOURS_IN_A_DAY);
 
     // Get the initial reward for the first hour
     CAmount initialReward = getRandomReward(INITIAL_REWARD_MIN, INITIAL_REWARD_MAX) * COIN;
@@ -1205,16 +1198,21 @@ double ConvertBitsToDouble(unsigned int nBits)
         rewards[i] = std::max(rewards[i - 1] - decrement, CAmount(1) * COIN); // Ensure reward is at least 1 COIN
     }
 
+    return rewards;
+}
+
+// Global variable to store hourly rewards
+std::vector<CAmount> hourlyRewards = calculateHourlyRewards();
+
+static std::pair<CAmount, CAmount> GetBlockSubsidyHelper(int nPrevBits, int nPrevHeight, const Consensus::Params& consensusParams, bool fV20Active)
+{
+    CAmount nSubsidyBase;
     const bool isDevnet = Params().NetworkIDString() == CBaseChainParams::DEVNET;
     const bool force_fixed_base_subsidy = fV20Active || (isDevnet && nPrevHeight >= consensusParams.nHighSubsidyBlocks);
 
-
     if (nPrevHeight == 0) {
-
         nSubsidyBase = 50; // Genesis block reward
-
     } else {
-
         // Generate random base subsidy between 50 and 500 for each hour
         int64_t hour = (nPrevHeight / 60) % 24;  // Assuming 1 block per minute, adjust accordingly
 
@@ -1225,12 +1223,11 @@ double ConvertBitsToDouble(unsigned int nBits)
         // Calculate subsidy base for each hour
         nSubsidyBase = dist(rng) - (hour * (450 / 24));
         if (nSubsidyBase < 50) nSubsidyBase = 50;  // Ensure the base subsidy doesn't go below 50
-
     }
 
     CAmount nSubsidy = nSubsidyBase * COIN;
 
-    // yearly decline of production by ~7.1% per year, projected ~18M coins max by year 2050+.
+    // Yearly decline of production by ~7.1% per year, projected ~18M coins max by year 2050+.
     for (int i = consensusParams.nSubsidyHalvingInterval; i <= nPrevHeight; i += consensusParams.nSubsidyHalvingInterval) {
         nSubsidy -= nSubsidy / 14;
     }
@@ -1276,7 +1273,6 @@ CAmount GetMasternodePayment(int nHeight, CAmount blockValue, bool fV20Active)
     const int nMNPIPeriod = Params().GetConsensus().nMasternodePaymentsIncreasePeriod;
     const int nReallocActivationHeight = Params().GetConsensus().BRRHeight;
 
-                                                                      // mainnet:
     if(nHeight > nMNPIBlock)                  ret += blockValue / 20; // 158000 - 25.0% - 2014-10-24
     if(nHeight > nMNPIBlock+(nMNPIPeriod* 1)) ret += blockValue / 20; // 175280 - 30.0% - 2014-11-25
     if(nHeight > nMNPIBlock+(nMNPIPeriod* 2)) ret += blockValue / 20; // 192560 - 35.0% - 2014-12-26
@@ -1317,8 +1313,8 @@ CAmount GetMasternodePayment(int nHeight, CAmount blockValue, bool fV20Active)
         ret = (blockValue * 65 / 100);
     }
     return ret;
-
 }
+
 
 CoinsViews::CoinsViews(
     std::string ldb_name,
@@ -1465,7 +1461,6 @@ void ProcessNewBlock(CBlockHeader& block)
         LogPrint(BCLog::VALIDATION, "Duplicate block detected: %s",  block.GetUniqueID().ToString().c_str());
     }
 }
-
 // Called both upon regular invalid block discovery *and* InvalidateBlock
 void CChainState::InvalidChainFound(CBlockIndex* pindexNew)
 {
@@ -2088,7 +2083,7 @@ static int64_t nTimeCreditPool = 0;
 static int64_t nTimeValueValid = 0;
 static int64_t nTimePayeeValid = 0;
 static int64_t nTimeProcessSpecial = 0;
-static int64_t nTimeZipSpecific = 0;
+static int64_t nTimeDashSpecific = 0;
 static int64_t nTimeConnect = 0;
 static int64_t nTimeIndexConnect = 0;
 static int64_t nTimeIndexWrite = 0;
@@ -2218,7 +2213,6 @@ bool CChainState::ConnectBlock(const CBlock& block, BlockValidationState& state,
     // duplicate transactions descending from the known pairs either.
     // If we're on the known chain at height greater than where BIP34 activated, we can save the db accesses needed for the BIP30 check.
     assert(pindex->pprev);
-
     if (fEnforceBIP30) {
         for (const auto& tx : block.vtx) {
             for (size_t o = 0; o < tx->vout.size(); o++) {
@@ -2491,8 +2485,8 @@ bool CChainState::ConnectBlock(const CBlock& block, BlockValidationState& state,
     int64_t nTime5_5 = GetTimeMicros(); nTimePayeeValid += nTime5_5 - nTime5_4;
     LogPrint(BCLog::BENCHMARK, "      - IsBlockPayeeValid: %.2fms [%.2fs (%.2fms/blk)]\n", MILLI * (nTime5_5 - nTime5_4), nTimePayeeValid * MICRO, nTimePayeeValid * MILLI / nBlocksTotal);
 
-    int64_t nTime5 = GetTimeMicros(); nTimeZipSpecific += nTime5 - nTime4;
-    LogPrint(BCLog::BENCHMARK, "    - Zip specific: %.2fms [%.2fs (%.2fms/blk)]\n", MILLI * (nTime5 - nTime4), nTimeZipSpecific * MICRO, nTimeZipSpecific * MILLI / nBlocksTotal);
+    int64_t nTime5 = GetTimeMicros(); nTimeDashSpecific += nTime5 - nTime4;
+    LogPrint(BCLog::BENCHMARK, "    - 6Zip specific: %.2fms [%.2fs (%.2fms/blk)]\n", MILLI * (nTime5 - nTime4), nTimeDashSpecific * MICRO, nTimeDashSpecific * MILLI / nBlocksTotal);
 
     // END ZIP
 
@@ -4219,6 +4213,7 @@ bool ChainstateManager::ProcessNewBlockHeaders(const std::vector<CBlockHeader>& 
     }
     return true;
 }
+
 
 /** Store block on disk. If dbp is non-nullptr, the file is known to already reside on disk */
 bool CChainState::AcceptBlock(const std::shared_ptr<const CBlock>& pblock, BlockValidationState& state, CBlockIndex** ppindex, bool fRequested, const FlatFilePos* dbp, bool* fNewBlock)

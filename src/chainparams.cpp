@@ -90,7 +90,7 @@ static CBlock FindDevNetGenesisBlock(const CBlock &prevBlock, const CAmount& rew
     std::string devNetName = gArgs.GetDevNetName();
     assert(!devNetName.empty());
 
-    CBlock block = CreateDevNetGenesisBlock(prevBlock.GetPOWHash(), devNetName, prevBlock.nTime + 1, 0, prevBlock.nBits, reward);
+    CBlock block = CreateDevNetGenesisBlock(prevBlock.GetHash(), devNetName, prevBlock.nTime + 1, 0, prevBlock.nBits, reward);
 
     arith_uint256 bnTarget;
     bnTarget.SetCompact(block.nBits);
@@ -98,7 +98,7 @@ static CBlock FindDevNetGenesisBlock(const CBlock &prevBlock, const CAmount& rew
     for (uint32_t nNonce = 0; nNonce < UINT32_MAX; nNonce++) {
         block.nNonce = nNonce;
 
-        uint256 hash = block.GetPOWHash();
+        uint256 hash = block.GetHash();
         if (UintToArith256(hash) <= bnTarget)
             return block;
     }
@@ -247,7 +247,7 @@ public:
         m_assumed_blockchain_size = 45;
         m_assumed_chain_state_size = 1;
         genesis = CreateGenesisBlock(1720834169, 819903, 0x1e0ffff0, 1, 50 * COIN);
-        consensus.hashGenesisBlock = genesis.GetPOWHash();
+        consensus.hashGenesisBlock = genesis.GetHash();
         assert(consensus.hashGenesisBlock == uint256S("0x00000b0896b55ada0b830f4ae96b81344119008714af713b0b693dc0ca92df6f"));
         assert(genesis.hashMerkleRoot == uint256S("0xc7a8aa497828e0ea78eff8536f18abcf04fa9ce238d2f24c27584e681afbd00d"));
         assert(genesis.uniqueID == uint256S("0xe931c264148d415450b79dc6382b4a46b4f2e9913a7f0444ad57e48ad640fb84"));
@@ -410,7 +410,7 @@ public:
         m_assumed_chain_state_size = 1;
 
         genesis = CreateGenesisBlock(1720834169, 819903, 0x1e0ffff0, 1, 50 * COIN);
-        consensus.hashGenesisBlock = genesis.GetPOWHash();
+        consensus.hashGenesisBlock = genesis.GetHash();
         assert(consensus.hashGenesisBlock == uint256S("0x00000b0896b55ada0b830f4ae96b81344119008714af713b0b693dc0ca92df6f"));
         assert(genesis.hashMerkleRoot == uint256S("0xc7a8aa497828e0ea78eff8536f18abcf04fa9ce238d2f24c27584e681afbd00d"));
         assert(genesis.uniqueID == uint256S("e931c264148d415450b79dc6382b4a46b4f2e9913a7f0444ad57e48ad640fb84"));
@@ -571,12 +571,12 @@ public:
         UpdateDevnetSubsidyAndDiffParametersFromArgs(args);
 
         genesis = CreateGenesisBlock(1720834169, 53783, 0x1e0ffff0, 1, 50 * COIN);
-        consensus.hashGenesisBlock = genesis.GetPOWHash();
+        consensus.hashGenesisBlock = genesis.GetHash();
         assert(consensus.hashGenesisBlock == uint256S("0x0000088fbf7a5f03c3b5a48d51895b044bf529c5e7899873ef7ea5f0cf7d5299"));
         assert(genesis.hashMerkleRoot == uint256S("0xc7a8aa497828e0ea78eff8536f18abcf04fa9ce238d2f24c27584e681afbd00d"));
         assert(genesis.uniqueID == uint256S("e931c264148d415450b79dc6382b4a46b4f2e9913a7f0444ad57e48ad640fb84"));
         devnetGenesis = FindDevNetGenesisBlock(genesis, 50 * COIN);
-        consensus.hashDevnetGenesisBlock = devnetGenesis.GetPOWHash();
+        consensus.hashDevnetGenesisBlock = devnetGenesis.GetHash();
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -636,7 +636,7 @@ public:
         checkpointData = (CCheckpointData) {
             {
                 { 0, uint256S("0x")},
-                { 1, devnetGenesis.GetPOWHash() },
+                { 1, devnetGenesis.GetHash() },
             }
         };
 
@@ -811,7 +811,7 @@ public:
         UpdateDIP8ParametersFromArgs(args);
         UpdateBudgetParametersFromArgs(args);
         genesis = CreateGenesisBlock(1720834169, 819903, 0x1e0ffff0, 1, 50 * COIN);
-        consensus.hashGenesisBlock = genesis.GetPOWHash();
+        consensus.hashGenesisBlock = genesis.GetHash();
         assert(consensus.hashGenesisBlock == uint256S("0x00000b0896b55ada0b830f4ae96b81344119008714af713b0b693dc0ca92df6f"));
         assert(genesis.hashMerkleRoot == uint256S("0xc7a8aa497828e0ea78eff8536f18abcf04fa9ce238d2f24c27584e681afbd00d"));
         assert(genesis.uniqueID == uint256S("e931c264148d415450b79dc6382b4a46b4f2e9913a7f0444ad57e48ad640fb84"));

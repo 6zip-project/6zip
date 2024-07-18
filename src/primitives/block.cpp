@@ -69,13 +69,13 @@ uint256 CBlockHeader::GetHash() const
     ss << nVersion << hashPrevBlock << hashMerkleRoot << nTime << nBits << nNonce;
 
     // Debug: Log serialized block header data
-    LogPrintf("Serialized block header: %s\n", HexStr(MakeUCharSpan(vch)));
+  //  LogPrintf("Serialized block header: %s\n", HexStr(MakeUCharSpan(vch)));
 
     // Use the new HashX7 function with the nonce
     uint256 hash = HashX7((const char *)vch.data(), (const char *)vch.data() + vch.size(), nNonce);
 
     // Debug: Log hash result
-    LogPrintf("Block hash: %s\n", hash.ToString());
+//    LogPrintf("Block hash: %s\n", hash.ToString());
 
     return hash;
 }

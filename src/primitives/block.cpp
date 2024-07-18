@@ -15,11 +15,11 @@
 
 std::unordered_set<CBlockHeader, BlockHeaderHash, BlockHeaderEqual> blockSet;
 
-
 void CBlockHeader::GenerateUniqueID()
 {
     uniqueID = Hash(hashPrevBlock.begin(), hashPrevBlock.end(), (unsigned char*)&nTime, (unsigned char*)&nTime + sizeof(nTime));
 }
+
 
 uint256 CBlockHeader::GetUniqueID() const
 {
@@ -52,7 +52,7 @@ void AddBlockToSet(CBlockHeader& block)
     if (!IsDuplicateBlock(block))
     {
         block.GenerateUniqueID();
-        blockSet.insert(std::move(block)); // Use std::move here
+        blockSet.insert(std::move(block));
     }
     else
     {
@@ -69,13 +69,14 @@ uint256 CBlockHeader::GetHash() const
     ss << nVersion << hashPrevBlock << hashMerkleRoot << nTime << nBits << nNonce;
 
     // Debug: Log serialized block header data
-  //  LogPrintf("Serialized block header: %s\n", HexStr(MakeUCharSpan(vch)));
+    //LogPrintf("Serialized block header: %s\n", HexStr(MakeUCharSpan(vch)));
 
+    uint32_t prevTimestamp = GetBlockTime();
     // Use the new HashX7 function with the nonce
-    uint256 hash = HashX7((const char *)vch.data(), (const char *)vch.data() + vch.size(), nNonce);
+    uint256 hash = HashX7((const char *)vch.data(), (const char *)vch.data() + vch.size(), prevTimestamp);
 
     // Debug: Log hash result
-//    LogPrintf("Block hash: %s\n", hash.ToString());
+    //LogPrintf("Block hash: %s\n", hash.ToString());
 
     return hash;
 }
@@ -91,7 +92,7 @@ std::string CBlock::ToString() const
         hashMerkleRoot.ToString(),
         nTime, nBits, nNonce,
         vtx.size(),
-        uniqueID.ToString()); // Include the unique ID here
+        uniqueID.ToString());
     for (const auto& tx : vtx) {
         s << "  " << tx->ToString() << "\n";
     }

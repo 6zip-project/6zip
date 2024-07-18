@@ -428,7 +428,7 @@ bool SendCoinsDialog::send(const QList<SendCoinsRecipient>& recipients, QString&
             question_string.append("<br />");
             question_string.append("<span style='" + GUIUtil::getThemedStyleQString(GUIUtil::ThemedStyle::TS_WARNING) + "'>");
             question_string.append(tr("Warning: Using %1 with %2 or more inputs can harm your privacy and is not recommended").arg(strCoinJoinName).arg(10));
-            question_string.append("<a style='" + GUIUtil::getThemedStyleQString(GUIUtil::ThemedStyle::TS_COMMAND) + "' href=\"https://docs.dash.org/en/stable/wallets/dashcore/coinjoin-instantsend.html#inputs\">");
+            question_string.append("<a style='" + GUIUtil::getThemedStyleQString(GUIUtil::ThemedStyle::TS_COMMAND) + "' href=\"https://docs.zip.online/en/stable/wallets/zipcore/coinjoin-instantsend.html#inputs\">");
             question_string.append(tr("Click to learn more"));
             question_string.append("</a>");
             question_string.append("</span> ");
@@ -968,7 +968,7 @@ void SendCoinsDialog::coinControlChangeEdited(const QString& text)
         }
         else if (!IsValidDestination(dest)) // Invalid address
         {
-            ui->labelCoinControlChangeLabel->setText(tr("Warning: Invalid Dash address"));
+            ui->labelCoinControlChangeLabel->setText(tr("Warning: Invalid Zip address"));
         }
         else // Valid address
         {

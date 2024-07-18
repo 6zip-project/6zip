@@ -73,9 +73,9 @@ static inline bool InsecureRandBool() { return g_insecure_rand_ctx.randbool(); }
 
 static constexpr CAmount CENT{1000000};
 
-/* Initialize Dash-specific components after chainstate initialization */
-void DashTestSetup(NodeContext& node);
-void DashTestSetupClose(NodeContext& node);
+/* Initialize Zip-specific components after chainstate initialization */
+void ZipTestSetup(NodeContext& node);
+void ZipTestSetupClose(NodeContext& node);
 
 /** Basic testing setup.
  * This just configures logging, data dir and chain parameters.

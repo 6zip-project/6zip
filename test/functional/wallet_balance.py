@@ -184,12 +184,12 @@ class WalletTest(BitcoinTestFramework):
         test_balances(fee_node_1=Decimal('0.01'))
 
         # Node 1 bumps the transaction fee and resends
-        # self.nodes[1].sendrawtransaction(txs[1]['hex']) # disabled, no RBF in Dash
-        #self.nodes[0].sendrawtransaction(txs[1]['hex'])  # sending on both nodes is faster than waiting for propagation # disabled, no RBF in Dash
+        # self.nodes[1].sendrawtransaction(txs[1]['hex']) # disabled, no RBF in Zip
+        #self.nodes[0].sendrawtransaction(txs[1]['hex'])  # sending on both nodes is faster than waiting for propagation # disabled, no RBF in Zip
         self.sync_all()
 
         self.log.info("Test getbalance and getbalances.mine.untrusted_pending with conflicted unconfirmed inputs")
-        # test_balances(fee_node_1=Decimal('0.02')) # disabled, no RBF in Dash
+        # test_balances(fee_node_1=Decimal('0.02')) # disabled, no RBF in Zip
 
         self.nodes[1].generatetoaddress(1, ADDRESS_WATCHONLY)
         self.sync_all()

@@ -14,7 +14,7 @@ from io import BytesIO
 from test_framework.p2p import P2PInterface
 from test_framework.messages import CBlock, CBlockHeader, CCbTx, CMerkleBlock, FromHex, hash256, msg_getmnlistd, \
     QuorumId, ser_uint256
-from test_framework.test_framework import DashTestFramework
+from test_framework.test_framework import ZipTestFramework
 from test_framework.util import (
     assert_equal
 )
@@ -41,9 +41,9 @@ class TestP2PConn(P2PInterface):
         return self.last_mnlistdiff
 
 
-class DIP3V19Test(DashTestFramework):
+class DIP3V19Test(ZipTestFramework):
     def set_test_params(self):
-        self.set_dash_test_params(6, 5, fast_dip3_enforcement=True, evo_count=2)
+        self.set_zip_test_params(6, 5, fast_dip3_enforcement=True, evo_count=2)
 
     def run_test(self):
         # Connect all nodes to node1 so that we always have the whole network connected

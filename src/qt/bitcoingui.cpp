@@ -348,16 +348,16 @@ void BitcoinGUI::stopConnectingAnimation()
 void BitcoinGUI::createActions()
 {
     sendCoinsMenuAction = new QAction(tr("&Send"), this);
-    sendCoinsMenuAction->setStatusTip(tr("Send coins to a Dash address"));
+    sendCoinsMenuAction->setStatusTip(tr("Send coins to a Zip address"));
     sendCoinsMenuAction->setToolTip(sendCoinsMenuAction->statusTip());
 
     QString strCoinJoinName = QString::fromStdString(gCoinJoinName);
     coinJoinCoinsMenuAction = new QAction(QString("&%1").arg(strCoinJoinName), this);
-    coinJoinCoinsMenuAction->setStatusTip(tr("Send %1 funds to a Dash address").arg(strCoinJoinName));
+    coinJoinCoinsMenuAction->setStatusTip(tr("Send %1 funds to a Zip address").arg(strCoinJoinName));
     coinJoinCoinsMenuAction->setToolTip(coinJoinCoinsMenuAction->statusTip());
 
     receiveCoinsMenuAction = new QAction(tr("&Receive"), this);
-    receiveCoinsMenuAction->setStatusTip(tr("Request payments (generates QR codes and dash: URIs)"));
+    receiveCoinsMenuAction->setStatusTip(tr("Request payments (generates QR codes and zip: URIs)"));
     receiveCoinsMenuAction->setToolTip(receiveCoinsMenuAction->statusTip());
 
 #ifdef ENABLE_WALLET
@@ -399,11 +399,11 @@ void BitcoinGUI::createActions()
     unlockWalletAction->setToolTip(tr("Unlock wallet"));
     lockWalletAction = new QAction(tr("&Lock Wallet"), this);
     signMessageAction = new QAction(tr("Sign &message..."), this);
-    signMessageAction->setStatusTip(tr("Sign messages with your Dash addresses to prove you own them"));
+    signMessageAction->setStatusTip(tr("Sign messages with your Zip addresses to prove you own them"));
     verifyMessageAction = new QAction(tr("&Verify message..."), this);
-    verifyMessageAction->setStatusTip(tr("Verify messages to ensure they were signed with specified Dash addresses"));
+    verifyMessageAction->setStatusTip(tr("Verify messages to ensure they were signed with specified Zip addresses"));
     m_load_psbt_action = new QAction(tr("&Load PSBT from file..."), this);
-    m_load_psbt_action->setStatusTip(tr("Load Partially Signed Dash Transaction"));
+    m_load_psbt_action->setStatusTip(tr("Load Partially Signed Zip Transaction"));
     m_load_psbt_clipboard_action = new QAction(tr("Load PSBT from clipboard..."), this);
     m_load_psbt_clipboard_action->setStatusTip(tr("Load Partially Signed Bitcoin Transaction from clipboard"));
 
@@ -437,7 +437,7 @@ void BitcoinGUI::createActions()
     usedReceivingAddressesAction->setStatusTip(tr("Show the list of used receiving addresses and labels"));
 
     openAction = new QAction(tr("Open &URI..."), this);
-    openAction->setStatusTip(tr("Open a dash: URI"));
+    openAction->setStatusTip(tr("Open a zip: URI"));
 
     m_open_wallet_action = new QAction(tr("Open Wallet"), this);
     m_open_wallet_action->setEnabled(false);
@@ -456,7 +456,7 @@ void BitcoinGUI::createActions()
 
     showHelpMessageAction = new QAction(tr("&Command-line options"), this);
     showHelpMessageAction->setMenuRole(QAction::NoRole);
-    showHelpMessageAction->setStatusTip(tr("Show the %1 help message to get a list with possible Dash command-line options").arg(PACKAGE_NAME));
+    showHelpMessageAction->setStatusTip(tr("Show the %1 help message to get a list with possible Zip command-line options").arg(PACKAGE_NAME));
 
     showCoinJoinHelpAction = new QAction(tr("%1 &information").arg(strCoinJoinName), this);
     showCoinJoinHelpAction->setMenuRole(QAction::NoRole);
@@ -1267,7 +1267,7 @@ void BitcoinGUI::updateNetworkState()
     fNetworkActivePrev = fNetworkActive;
 
     if (fNetworkActive) {
-        labelConnectionsIcon->setToolTip(tr("%n active connection(s) to Dash network", "", count));
+        labelConnectionsIcon->setToolTip(tr("%n active connection(s) to Zip network", "", count));
     } else {
         labelConnectionsIcon->setToolTip(tr("Network activity disabled"));
         icon = "connect_4";
@@ -1372,7 +1372,7 @@ void BitcoinGUI::updateWidth()
         ++nButtonsVisible;
     }
     // Add 30 per button as padding and use minimum 980 which is the minimum required to show all tab's contents
-    // Use nButtonsVisible + 1 <- for the dash logo
+    // Use nButtonsVisible + 1 <- for the zip logo
     int nWidth = std::max<int>(980, (nWidthWidestButton + 30) * (nButtonsVisible + 1));
     setMinimumWidth(nWidth);
     resize(nWidth, height());

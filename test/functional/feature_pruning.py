@@ -490,7 +490,7 @@ class PruneTest(BitcoinTestFramework):
         self.log.info("Test invalid pruning command line options")
         self.test_invalid_command_line_options()
 
-        # NOTE: this is a Dash-specific part, it should be the very last one before "Done"
+        # NOTE: this is a Zip-specific part, it should be the very last one before "Done"
         self.log.info("Stopping pruned nodes manually")
         for i in range(2, 6):
             self.log.info("Stopping pruned node%d" % i)

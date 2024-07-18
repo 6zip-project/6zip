@@ -12,14 +12,14 @@ Checks simple PoSe system based on LLMQ commitments
 
 import time
 
-from test_framework.test_framework import DashTestFramework
+from test_framework.test_framework import ZipTestFramework
 from test_framework.util import assert_equal, force_finish_mnsync, p2p_port
 
 
-class LLMQSimplePoSeTest(DashTestFramework):
+class LLMQSimplePoSeTest(ZipTestFramework):
     def set_test_params(self):
-        self.set_dash_test_params(6, 5, fast_dip3_enforcement=True)
-        self.set_dash_llmq_test_params(5, 3)
+        self.set_zip_test_params(6, 5, fast_dip3_enforcement=True)
+        self.set_zip_llmq_test_params(5, 3)
 
     def run_test(self):
 

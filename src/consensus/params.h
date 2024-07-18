@@ -100,16 +100,16 @@ struct Params {
     int nGovernanceFilterElements;
     int nMasternodeMinimumConfirmations;
     /** Block height and hash at which BIP34 becomes active */
-    int BIP34Height;
+    bool BIP34Height;
     uint256 BIP34Hash;
     /** Block height at which BIP65 becomes active */
-    int BIP65Height;
+    bool BIP65Height;
     /** Block height at which BIP66 becomes active */
-    int BIP66Height;
+    bool BIP66Height;
     // Deployment of BIP147 (NULLDUMMY)
-    int BIP147Height;
+    bool BIP147Height;
     /** Block height at which CSV (BIP68, BIP112 and BIP113) becomes active */
-    int CSVHeight;
+    bool CSVHeight;
     /** Block height at which DIP0001 becomes active */
     int DIP0001Height;
     /** Block height at which DIP0002 and DIP0003 (txv3 and deterministic MN lists) becomes active */
@@ -148,8 +148,6 @@ struct Params {
     bool fPowNoRetargeting;
     int64_t nPowTargetSpacing;
     int64_t nPowTargetTimespan;
-    int nPowKGWHeight;
-    int nPowDGWHeight;
     int64_t DifficultyAdjustmentInterval() const { return nPowTargetTimespan / nPowTargetSpacing; }
     uint256 nMinimumChainWork;
     uint256 defaultAssumeValid;

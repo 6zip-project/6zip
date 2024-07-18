@@ -30,13 +30,14 @@ public:
     uint32_t nTime;
     uint32_t nBits;
     uint32_t nNonce;
+    uint256 uniqueID;
 
     CBlockHeader()
     {
         SetNull();
     }
 
-    SERIALIZE_METHODS(CBlockHeader, obj) { READWRITE(obj.nVersion, obj.hashPrevBlock, obj.hashMerkleRoot, obj.nTime, obj.nBits, obj.nNonce); }
+    SERIALIZE_METHODS(CBlockHeader, obj) { READWRITE(obj.nVersion, obj.hashPrevBlock, obj.hashMerkleRoot, obj.nTime, obj.nBits, obj.nNonce, obj.uniqueID); }
 
     void SetNull()
     {
@@ -46,6 +47,7 @@ public:
         nTime = 0;
         nBits = 0;
         nNonce = 0;
+        uniqueID.SetNull();
     }
 
     bool IsNull() const
@@ -53,12 +55,20 @@ public:
         return (nBits == 0);
     }
 
+    uint64_t nonce;
     uint256 GetHash() const;
 
     int64_t GetBlockTime() const
     {
         return (int64_t)nTime;
     }
+
+    void GenerateUniqueID();
+
+    uint256 GetUniqueID() const;
+
+    void LogBlock() const;
+
 };
 
 class CompressedHeaderBitField
@@ -176,6 +186,7 @@ struct CompressibleBlockHeader : CBlockHeader {
             READWRITE(obj.nBits);
         }
         READWRITE(obj.nNonce);
+        READWRITE(obj.uniqueID);
     }
 
     void Compress(const std::vector<CompressibleBlockHeader>& previous_blocks, std::list<int32_t>& last_unique_versions);
@@ -232,6 +243,7 @@ public:
 };
 
 
+
 /** Describes a place in the block chain to another node such that if the
  * other node doesn't have the same branch, it can find a recent common trunk.
  * The further back it is, the further before the fork it may be.
@@ -262,5 +274,20 @@ struct CBlockLocator
         return vHave.empty();
     }
 };
+
+struct BlockHeaderHash
+{
+    std::size_t operator()(const CBlockHeader& header) const;
+};
+
+struct BlockHeaderEqual
+{
+    bool operator()(const CBlockHeader& lhs, const CBlockHeader& rhs) const;
+};
+
+extern std::unordered_set<CBlockHeader, BlockHeaderHash, BlockHeaderEqual> blockSet;
+
+bool IsDuplicateBlock(const CBlockHeader& block);
+void AddBlockToSet(CBlockHeader& block);
 
 #endif // BITCOIN_PRIMITIVES_BLOCK_H

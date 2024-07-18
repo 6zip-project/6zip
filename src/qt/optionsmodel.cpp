@@ -75,7 +75,7 @@ void OptionsModel::Init(bool resetSettings)
 
     // Display
     if (!settings.contains("nDisplayUnit"))
-        settings.setValue("nDisplayUnit", BitcoinUnits::DASH);
+        settings.setValue("nDisplayUnit", BitcoinUnits::ZIP);
     nDisplayUnit = settings.value("nDisplayUnit").toInt();
 
     if (!settings.contains("strThirdPartyTxUrls"))
@@ -231,10 +231,10 @@ void OptionsModel::Init(bool resetSettings)
 
     if (!settings.contains("nCoinJoinAmount")) {
         // for migration from old settings
-        if (!settings.contains("nAnonymizeDashAmount"))
+        if (!settings.contains("nAnonymizeZipAmount"))
             settings.setValue("nCoinJoinAmount", DEFAULT_COINJOIN_AMOUNT);
         else
-            settings.setValue("nCoinJoinAmount", settings.value("nAnonymizeDashAmount").toInt());
+            settings.setValue("nCoinJoinAmount", settings.value("nAnonymizeZipAmount").toInt());
     }
     if (!gArgs.SoftSetArg("-coinjoinamount", settings.value("nCoinJoinAmount").toString().toStdString()))
         addOverriddenOption("-coinjoinamount");

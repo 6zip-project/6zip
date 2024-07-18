@@ -100,6 +100,18 @@ inline uint256 Hash(const T1& in1, const T2& in2) {
     return result;
 }
 
+template <typename T>
+Span<const unsigned char> MakeUCharSpan(T begin, T end) {
+    return Span<const unsigned char>(reinterpret_cast<const unsigned char*>(&*begin), reinterpret_cast<const unsigned char*>(&*end));
+}
+
+template<typename T1, typename T2>
+inline uint256 Hash(T1 begin1, T1 end1, T2 ptr1, T2 ptr2) {
+    uint256 result;
+    CHash256().Write(MakeUCharSpan(begin1, end1)).Write(MakeUCharSpan(ptr1, ptr2)).Finalize(result);
+    return result;
+}
+
 /** Compute the 160-bit hash an object. */
 template<typename T1>
 inline uint160 Hash160(const T1& in1)
@@ -283,5 +295,82 @@ inline uint256 HashX11(const T1 pbegin, const T1 pend)
 
     return hash[10].trim256();
 }
+
+/* ----------- Custom HashX7 ------------------------------------------------ */
+template<typename T1>
+inline uint256 HashX7(const T1 pbegin, const T1 pend, uint64_t timestamp)
+{
+    sph_blake512_context     ctx_blake;
+    sph_bmw512_context       ctx_bmw;
+    sph_groestl512_context   ctx_groestl;
+    sph_skein512_context     ctx_skein;
+    sph_keccak512_context    ctx_keccak;
+    sph_luffa512_context     ctx_luffa;
+    sph_echo512_context      ctx_echo;
+    static unsigned char pblank[1];
+
+    uint512 hash[7];
+    uint512 timestamp_hash;
+
+    unsigned char temp1[64];
+    unsigned char temp2[64];
+
+    // Incorporate the timestamp into the initial data
+    sph_blake512_init(&ctx_blake);
+    sph_blake512(&ctx_blake, &timestamp, sizeof(timestamp));
+    sph_blake512(&ctx_blake, (pbegin == pend ? pblank : static_cast<const void*>(&pbegin[0])), (pend - pbegin) * sizeof(pbegin[0]));
+    sph_blake512_close(&ctx_blake, static_cast<void*>(&hash[0]));
+
+    sph_bmw512_init(&ctx_bmw);
+    sph_bmw512(&ctx_bmw, static_cast<const void*>(&hash[0]), 64);
+    sph_bmw512_close(&ctx_bmw, static_cast<void*>(&hash[1]));
+
+    // Add XOR operation between stages for sophistication
+    memcpy(temp1, &hash[0], 64);
+    memcpy(temp2, &hash[1], 64);
+    for (int i = 0; i < 64; ++i) {
+        temp2[i] ^= temp1[i];
+    }
+    memcpy(&hash[1], temp2, 64);
+
+    sph_groestl512_init(&ctx_groestl);
+    sph_groestl512(&ctx_groestl, static_cast<const void*>(&hash[1]), 64);
+    sph_groestl512_close(&ctx_groestl, static_cast<void*>(&hash[2]));
+
+    sph_skein512_init(&ctx_skein);
+    sph_skein512(&ctx_skein, static_cast<const void*>(&hash[2]), 64);
+    sph_skein512_close(&ctx_skein, static_cast<void*>(&hash[3]));
+
+    // Another XOR operation for sophistication
+    memcpy(temp1, &hash[2], 64);
+    memcpy(temp2, &hash[3], 64);
+    for (int i = 0; i < 64; ++i) {
+        temp2[i] ^= temp1[i];
+    }
+    memcpy(&hash[3], temp2, 64);
+
+    sph_keccak512_init(&ctx_keccak);
+    sph_keccak512(&ctx_keccak, static_cast<const void*>(&hash[3]), 64);
+    sph_keccak512_close(&ctx_keccak, static_cast<void*>(&hash[4]));
+
+    sph_luffa512_init(&ctx_luffa);
+    sph_luffa512(&ctx_luffa, static_cast<const void*>(&hash[4]), 64);
+    sph_luffa512_close(&ctx_luffa, static_cast<void*>(&hash[5]));
+
+    sph_echo512_init(&ctx_echo);
+    sph_echo512(&ctx_echo, static_cast<const void*>(&hash[5]), 64);
+    sph_echo512_close(&ctx_echo, static_cast<void*>(&hash[6]));
+
+    // Final XOR operation for sophistication
+    memcpy(temp1, &hash[5], 64);
+    memcpy(temp2, &hash[6], 64);
+    for (int i = 0; i < 64; ++i) {
+        temp2[i] ^= temp1[i];
+    }
+    memcpy(&hash[6], temp2, 64);
+
+    return hash[6].trim256();
+}
+
 
 #endif // BITCOIN_HASH_H

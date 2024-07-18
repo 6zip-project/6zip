@@ -1,20 +1,20 @@
-# I2P support in Dash Core
+# I2P support in Zip Core
 
-It is possible to run Dash Core as an
+It is possible to run Zip Core as an
 [I2P (Invisible Internet Project)](https://en.wikipedia.org/wiki/I2P)
 service and connect to such services.
 
 This [glossary](https://geti2p.net/en/about/glossary) may be useful to get
 started with I2P terminology.
 
-## Run Dash Core with an I2P router (proxy)
+## Run Zip Core with an I2P router (proxy)
 
 A running I2P router (proxy) with [SAM](https://geti2p.net/en/docs/api/samv3)
 enabled is required (there is an [official one](https://geti2p.net) and
 [a few alternatives](https://en.wikipedia.org/wiki/I2P#Routers)). Notice the IP
 address and port the SAM proxy is listening to; usually, it is
 `127.0.0.1:7656`. Once it is up and running with SAM enabled, use the following
-Dash Core options:
+Zip Core options:
 
 ```
 -i2psam=<ip:port>
@@ -33,55 +33,55 @@ Dash Core options:
 In a typical situation, this suffices:
 
 ```
-dashd -i2psam=127.0.0.1:7656
+zipd -i2psam=127.0.0.1:7656
 ```
 
-The first time Dash Core connects to the I2P router, its I2P address (and
+The first time Zip Core connects to the I2P router, its I2P address (and
 corresponding private key) will be automatically generated and saved in a file
-named `i2p_private_key` in the Dash Core data directory.
+named `i2p_private_key` in the Zip Core data directory.
 
 ## Additional configuration options related to I2P
 
 You may set the `debug=i2p` config logging option to have additional
 information in the debug log about your I2P configuration and connections. Run
-`dash-cli help logging` for more information.
+`zip-cli help logging` for more information.
 
 It is possible to restrict outgoing connections in the usual way with
-`onlynet=i2p`. I2P support was added to Dash Core in version 20.0 (fall 2023)
+`onlynet=i2p`. I2P support was added to Zip Core in version 20.0 (fall 2023)
 and there may be fewer I2P peers than Tor or IP ones. Therefore, using
 `onlynet=i2p` alone (without other `onlynet=`) may make a node more susceptible
-to [Sybil attacks](https://en.dash.it/wiki/Weaknesses#Sybil_attack). Use
-`dash-cli -addrinfo` to see the number of I2P addresses known to your node.
+to [Sybil attacks](https://en.zip.it/wiki/Weaknesses#Sybil_attack). Use
+`zip-cli -addrinfo` to see the number of I2P addresses known to your node.
 
-## I2P related information in Dash Core
+## I2P related information in Zip Core
 
-There are several ways to see your I2P address in Dash Core:
+There are several ways to see your I2P address in Zip Core:
 - in the debug log (grep for `AddLocal`, the I2P address ends in `.b32.i2p`)
 - in the output of the `getnetworkinfo` RPC in the "localaddresses" section
-- in the output of `dash-cli -netinfo` peer connections dashboard
+- in the output of `zip-cli -netinfo` peer connections zipboard
 
-To see which I2P peers your node is connected to, use `dash-cli -netinfo 4`
-or the `getpeerinfo` RPC (e.g. `dash-cli getpeerinfo`).
+To see which I2P peers your node is connected to, use `zip-cli -netinfo 4`
+or the `getpeerinfo` RPC (e.g. `zip-cli getpeerinfo`).
 
 To see which I2P addresses your node knows, use the `getnodeaddresses 0 i2p`
 RPC.
 
 ## Compatibility
 
-Dash Core uses the [SAM v3.1](https://geti2p.net/en/docs/api/samv3) protocol
+Zip Core uses the [SAM v3.1](https://geti2p.net/en/docs/api/samv3) protocol
 to connect to the I2P network. Any I2P router that supports it can be used.
 
-## Ports in I2P and Dash Core
+## Ports in I2P and Zip Core
 
-Dash Core uses the [SAM v3.1](https://geti2p.net/en/docs/api/samv3)
+Zip Core uses the [SAM v3.1](https://geti2p.net/en/docs/api/samv3)
 protocol. One particularity of SAM v3.1 is that it does not support ports,
 unlike newer versions of SAM (v3.2 and up) that do support them and default the
 port numbers to 0. From the point of view of peers that use newer versions of
 SAM or other protocols that support ports, a SAM v3.1 peer is connecting to them
 on port 0, from source port 0.
 
-To allow future upgrades to newer versions of SAM, Dash Core sets its
+To allow future upgrades to newer versions of SAM, Zip Core sets its
 listening port to 0 when listening for incoming I2P connections and advertises
 its own I2P address with port 0. Furthermore, it will not attempt to connect to
 I2P addresses with a non-zero port number because with SAM v3.1 the destination
-port (`TO_PORT`) is always set to 0 and is not in the control of Dash Core.
+port (`TO_PORT`) is always set to 0 and is not in the control of Zip Core.

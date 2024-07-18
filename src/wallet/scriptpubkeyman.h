@@ -42,7 +42,7 @@ public:
     // for LegacyScriptPubKeyMan::TopUpInner needs:
     virtual void UpdateProgress(const std::string&, int) = 0;
 
-    // methods below are unique from Dash due to different implementation of HD
+    // methods below are unique from Zip due to different implementation of HD
     virtual void NewKeyPoolCallback() = 0;
     virtual void KeepDestinationCallback(bool erased) = 0;
 };

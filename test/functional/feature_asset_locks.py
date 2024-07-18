@@ -36,7 +36,7 @@ from test_framework.script import (
     OP_RETURN,
     hash160,
 )
-from test_framework.test_framework import DashTestFramework
+from test_framework.test_framework import ZipTestFramework
 from test_framework.util import (
     assert_equal,
     assert_greater_than,
@@ -49,9 +49,9 @@ llmq_type_test = 106 # LLMQType::LLMQ_TEST_PLATFORM
 tiny_amount = int(Decimal("0.0007") * COIN)
 blocks_in_one_day = 576
 
-class AssetLocksTest(DashTestFramework):
+class AssetLocksTest(ZipTestFramework):
     def set_test_params(self):
-        self.set_dash_test_params(5, 3, [["-whitelist=127.0.0.1", "-llmqtestinstantsenddip0024=llmq_test_instantsend"]] * 5, evo_count=3)
+        self.set_zip_test_params(5, 3, [["-whitelist=127.0.0.1", "-llmqtestinstantsenddip0024=llmq_test_instantsend"]] * 5, evo_count=3)
 
     def skip_test_if_missing_module(self):
         self.skip_if_no_wallet()

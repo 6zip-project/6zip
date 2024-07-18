@@ -26,7 +26,7 @@ services:
       - type: bind
 #        source: /host/$PWD # Workaround needed on non-Linux hosts
         source: ../../..
-        target: /src/dash
+        target: /src/zip
 
 # Sharing your ccache
 #
@@ -41,7 +41,7 @@ services:
 # NOTE: Only the first line is a continuation of the services.container.volumes
 #       definition
 
-#      - cache:/home/dash/.ccache
+#      - cache:/home/zip/.ccache
 #
 # volumes:
 #    cache:

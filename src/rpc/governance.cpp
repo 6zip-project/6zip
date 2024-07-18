@@ -174,9 +174,9 @@ static UniValue gobject_prepare(const JSONRPCRequest& request)
 
     CGovernanceObject govobj(hashParent, nRevision, nTime, uint256(), strDataHex);
 
-    // This command is dangerous because it consumes 5 DASH irreversibly.
+    // This command is dangerous because it consumes 5 ZIP irreversibly.
     // If params are lost, it's very hard to bruteforce them and yet
-    // users ignore all instructions on dashcentral etc. and do not save them...
+    // users ignore all instructions on zipcentral etc. and do not save them...
     // Let's log them here and hope users do not mess with debug.log
     LogPrintf("gobject_prepare -- params: %s %s %s %s, data: %s, hash: %s\n",
                 request.params[0].getValStr(), request.params[1].getValStr(),
@@ -1093,11 +1093,11 @@ void RegisterGovernanceRPCCommands(CRPCTable &t)
 static const CRPCCommand commands[] =
 { //  category              name                      actor (function)         argNames
   //  --------------------- ------------------------  -----------------------  ----------
-    /* Dash features */
-    { "dash",               "getgovernanceinfo",      &getgovernanceinfo,      {} },
-    { "dash",               "getsuperblockbudget",    &getsuperblockbudget,    {"index"} },
-    { "dash",               "gobject",                &gobject,                {} },
-    { "dash",               "voteraw",                &voteraw,                {"tx_hash","tx_index","gov_hash","signal","outcome","time","sig"} },
+    /* Zip features */
+    { "zip",               "getgovernanceinfo",      &getgovernanceinfo,      {} },
+    { "zip",               "getsuperblockbudget",    &getsuperblockbudget,    {"index"} },
+    { "zip",               "gobject",                &gobject,                {} },
+    { "zip",               "voteraw",                &voteraw,                {"tx_hash","tx_index","gov_hash","signal","outcome","time","sig"} },
 
 };
 // clang-format on

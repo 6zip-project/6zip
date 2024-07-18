@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Name=Zip Core
+Comment=Zip P2P Cryptocurrency
+Comment[de]=Verbinde mit dem Zip peer-to-peer Netzwerk
+Comment[fr]=Zip, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=Zip, eşten eşe kriptografik sanal para birimi
+Exec=zip-qt %u
+Terminal=false
+Type=Application
+Icon=zip128
+MimeType=x-scheme-handler/zip;
+Categories=Office;Finance;P2P;Network;Qt;
+StartupWMClass=Zip-qt

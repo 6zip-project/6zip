@@ -196,6 +196,9 @@ public:
         consensus.DIP0024QuorumsHeight = 360;
         consensus.V19Height = 370;
         consensus.MinBIP9WarningHeight = 370 + 1008; // V19 activation height + miner confirmation window
+        consensus.nPowRTHeight = 18000;
+        consensus.nDifficultyAdjustmentRange = 1000; // Number of blocks for target average calculation.
+        consensus.nHeightInterval = 10000; // Interval for different adjustment logic
         consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 20
         consensus.nPowTargetTimespan = 1.4 * 24 * 60 * 60; // 1.4 days
         consensus.nPowTargetSpacing = 2 * 60; // 2 minutes
@@ -364,6 +367,8 @@ public:
         consensus.DIP0024QuorumsHeight = 370;
         consensus.V19Height = 380;
         consensus.MinBIP9WarningHeight = 380 + 2016;  // v19 activation height + miner confirmation window
+        consensus.nDifficultyAdjustmentRange = 10; // Number of blocks for target average calculation.
+        consensus.nHeightInterval = 100; // Interval for different adjustment logic
         consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 20
         consensus.nPowTargetTimespan = 1.4 * 24 * 60 * 60; // 1.4 days
         consensus.nPowTargetSpacing = 2 * 60; // 2 minutes
@@ -524,6 +529,8 @@ public:
         consensus.DIP0024QuorumsHeight = 300;
         consensus.V19Height = 300;
         consensus.MinBIP9WarningHeight = 300 + 2016; // v19 activation height + miner confirmation window
+        consensus.nDifficultyAdjustmentRange = 10; // Number of blocks for target average calculation.
+        consensus.nHeightInterval = 100; // Interval for different adjustment logic
         consensus.powLimit = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 1
         consensus.nPowTargetTimespan = 24 * 60 * 60; // zip: 1 day
         consensus.nPowTargetSpacing = 2.5 * 60; // zip: 2.5 minutes
@@ -761,6 +768,8 @@ public:
         consensus.DIP0024QuorumsHeight = 900;
         consensus.V19Height = 900;
         consensus.MinBIP9WarningHeight = 0;
+        consensus.nDifficultyAdjustmentRange = 10; // Number of blocks for target average calculation.
+        consensus.nHeightInterval = 100; // Interval for different adjustment logic
         consensus.powLimit = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 1
         consensus.nPowTargetTimespan = 24 * 60 * 60; // zip: 1 day
         consensus.nPowTargetSpacing = 2.5 * 60; // zip: 2.5 minutes

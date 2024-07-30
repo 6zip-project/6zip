@@ -51,6 +51,35 @@ bool PermittedDifficultyTransition(const Consensus::Params& params, int64_t heig
  */
 bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params& params);
 
+
+/**
+ *
+ * The BlockTimeVarianceAdjustment calculates a new difficulty target by averaging the targets of past blocks and adjusting
+ * the target based on the actual block time span compared to the expected block time span. Additional
+ * behavior is applied based on the current block height and the specified interval.
+ *
+ * @param pindexLast Pointer to the last block index. This is used to determine the current block's height
+ * and retrieve relevant block information for adjustment.
+ * @param params Consensus parameters that include various configuration settings for the blockchain,
+ * such as the proof-of-work limit and target spacing.
+ * @return The new difficulty target in compact format, adjusted according to the block time variance
+ * and height-based logic.
+ *
+ * The adjustment involves:
+ * - Calculating the average target over a range of past blocks defined by `nDifficultyAdjustmentRange`
+ * - Adjusting the target based on the actual block time span compared to the expected time span
+ * - Applying additional logic based on the current block height, with different behavior for every
+ *   `nHeightInterval` blocks, such as increasing the maximum allowable target if the height interval is odd.
+ *
+ * Parameters:
+ * - `nDifficultyAdjustmentRange`: Defines the number of blocks used to calculate the average target for
+ *   difficulty adjustment. 1000 blocks for mainnet.
+ * - `nHeightInterval`: Specifies the interval at which different adjustment logic is applied based on
+ *   the block height. Every 10,000 blocks for mainnet.
+ */
+unsigned int static BlockTimeVarianceAdjustment(const CBlockIndex* pindexLast, const Consensus::Params& params);
+
+
 /**
  * Compute the custom proof-of-work hash for a block.
  * @param block The block header.

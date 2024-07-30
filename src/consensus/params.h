@@ -129,6 +129,12 @@ struct Params {
     int DIP0024QuorumsHeight;
     /** Block height at which V19 (Basic BLS and EvoNodes) becomes active */
     int V19Height;
+    /** Number of blocks for target average calculation. */
+    int64_t nDifficultyAdjustmentRange;
+    /** Interval for different adjustment logic. */
+    int64_t nHeightInterval;
+    /** PoW retargeting height */
+    int nPowRTHeight;
     /** Don't warn about unknown BIP 9 activations below this height.
      * This prevents us from warning about the CSV and DIP activations. */
     int MinBIP9WarningHeight;

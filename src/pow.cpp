@@ -15,7 +15,11 @@
 
 
 unsigned int static BlockTimeVarianceAdjustment(const CBlockIndex* pindexLast, const Consensus::Params& params) {
+<<<<<<< HEAD
     arith_uint256 bnPowLimit = UintToArith256(params.powLimit); // Remove const to allow modification
+=======
+    const arith_uint256 bnPowLimit = UintToArith256(params.powLimit);
+>>>>>>> fc92d958f9b89b2909ed42d9764db9da759f2250
 
     // Make sure we have at least (params.nDifficultyAdjustmentRange + 1) blocks; otherwise, return powLimit
     if (!pindexLast || pindexLast->nHeight < params.nDifficultyAdjustmentRange) {
@@ -42,15 +46,27 @@ unsigned int static BlockTimeVarianceAdjustment(const CBlockIndex* pindexLast, c
     }
 
     arith_uint256 bnNew(bnPastTargetAvg);
+<<<<<<< HEAD
+=======
+
+>>>>>>> fc92d958f9b89b2909ed42d9764db9da759f2250
     int64_t nActualTimespan = pindexLast->GetBlockTime() - pindex->GetBlockTime();
     int64_t nTargetTimespan = params.nDifficultyAdjustmentRange * params.nPowTargetSpacing;
 
     // Adjust the timespan to be within bounds
+<<<<<<< HEAD
     if (nActualTimespan < nTargetTimespan / 4) {
         nActualTimespan = nTargetTimespan / 4;
     }
     if (nActualTimespan > nTargetTimespan * 4) {
         nActualTimespan = nTargetTimespan * 4;
+=======
+    if (nActualTimespan < nTargetTimespan / 3) {
+        nActualTimespan = nTargetTimespan / 3;
+    }
+    if (nActualTimespan > nTargetTimespan * 3) {
+        nActualTimespan = nTargetTimespan * 3;
+>>>>>>> fc92d958f9b89b2909ed42d9764db9da759f2250
     }
 
     // Retarget
@@ -61,9 +77,13 @@ unsigned int static BlockTimeVarianceAdjustment(const CBlockIndex* pindexLast, c
     int64_t nCurrentHeight = pindexLast->nHeight;
     if ((nCurrentHeight / params.nHeightInterval) % 2 == 1) {
         // Apply different behavior if the height interval is odd
+<<<<<<< HEAD
         arith_uint256 bnPowLimitMod = bnPowLimit; // Create a non-const copy for modification
         bnPowLimitMod *= 2; // Increase the maximum allowable target
         bnPowLimit = bnPowLimitMod; // Update the maximum allowable target
+=======
+        bnPowLimit *= 2; // increase the maximum allowable target
+>>>>>>> fc92d958f9b89b2909ed42d9764db9da759f2250
     }
 
     // Ensure the new target does not exceed the proof-of-work limit
@@ -73,7 +93,10 @@ unsigned int static BlockTimeVarianceAdjustment(const CBlockIndex* pindexLast, c
 
     return bnNew.GetCompact();
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> fc92d958f9b89b2909ed42d9764db9da759f2250
 
 
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)

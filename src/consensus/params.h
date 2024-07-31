@@ -133,8 +133,11 @@ struct Params {
     int64_t nDifficultyAdjustmentRange;
     /** Interval for different adjustment logic. */
     int64_t nHeightInterval;
+<<<<<<< HEAD
     /** PoW retargeting height */
     int nPowRTHeight;
+=======
+>>>>>>> fc92d958f9b89b2909ed42d9764db9da759f2250
     /** Don't warn about unknown BIP 9 activations below this height.
      * This prevents us from warning about the CSV and DIP activations. */
     int MinBIP9WarningHeight;

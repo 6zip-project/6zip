@@ -15,6 +15,56 @@
 
 
 
+unsigned int static DarkGravityWave(const CBlockIndex* pindexLast, const Consensus::Params& params) {
+    /* current difficulty formula, dash - DarkGravity v3, written by Evan Duffield - evan@dash.org */
+    const arith_uint256 bnPowLimit = UintToArith256(params.powLimit);
+    int64_t nPastBlocks = 24;
+
+    // make sure we have at least (nPastBlocks + 1) blocks, otherwise just return powLimit
+    if (!pindexLast || pindexLast->nHeight < nPastBlocks) {
+        return bnPowLimit.GetCompact();
+    }
+
+    const CBlockIndex *pindex = pindexLast;
+    arith_uint256 bnPastTargetAvg;
+
+    for (unsigned int nCountBlocks = 1; nCountBlocks <= nPastBlocks; nCountBlocks++) {
+        arith_uint256 bnTarget = arith_uint256().SetCompact(pindex->nBits);
+        if (nCountBlocks == 1) {
+            bnPastTargetAvg = bnTarget;
+        } else {
+            // NOTE: that's not an average really...
+            bnPastTargetAvg = (bnPastTargetAvg * nCountBlocks + bnTarget) / (nCountBlocks + 1);
+        }
+
+        if(nCountBlocks != nPastBlocks) {
+            assert(pindex->pprev); // should never fail
+            pindex = pindex->pprev;
+        }
+    }
+
+    arith_uint256 bnNew(bnPastTargetAvg);
+
+    int64_t nActualTimespan = pindexLast->GetBlockTime() - pindex->GetBlockTime();
+    // NOTE: is this accurate? nActualTimespan counts it for (nPastBlocks - 1) blocks only...
+    int64_t nTargetTimespan = nPastBlocks * params.nPowTargetSpacing;
+
+    if (nActualTimespan < nTargetTimespan/3)
+        nActualTimespan = nTargetTimespan/3;
+    if (nActualTimespan > nTargetTimespan*3)
+        nActualTimespan = nTargetTimespan*3;
+
+    // Retarget
+    bnNew *= nActualTimespan;
+    bnNew /= nTargetTimespan;
+
+    if (bnNew > bnPowLimit) {
+        bnNew = bnPowLimit;
+    }
+
+    return bnNew.GetCompact();
+}
+
 unsigned int static BlockTimeVarianceAdjustment(const CBlockIndex* pindexLast, const Consensus::Params& params) {
     arith_uint256 bnPowLimit = UintToArith256(params.powLimit); // Remove const to allow modification
 
@@ -102,8 +152,8 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
             }
         }
 
-    if (pindexLast->nHeight + 1 > params.nPowRTHeight) {
-        return BlockTimeVarianceAdjustment(pindexLast, params);
+    if (pindexLast->nHeight + 1 >= params.nPowRTHeight) {
+        return DarkGravityWave(pindexLast, params);
     }
 
         return pindexLast->nBits;
@@ -123,29 +173,26 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
     if (params.fPowNoRetargeting)
         return pindexLast->nBits;
 
+    // Select the appropriate timespan parameter
+    int64_t nPowTargetTimespan = (pindexLast->nHeight >= params.nPowRTHeight) ? params.nPowTargetTimespan_v2 : params.nPowTargetTimespan;
+
     // Limit adjustment step
     int64_t nActualTimespan = pindexLast->GetBlockTime() - nFirstBlockTime;
-    
-    // Ensure timespan is within bounds
-    if (nActualTimespan < params.nPowTargetTimespan / 4)
-        nActualTimespan = params.nPowTargetTimespan / 4;
-    if (nActualTimespan > params.nPowTargetTimespan * 4)
-        nActualTimespan = params.nPowTargetTimespan * 4;
+    if (nActualTimespan < nPowTargetTimespan/4)
+        nActualTimespan = nPowTargetTimespan/4;
+    if (nActualTimespan > nPowTargetTimespan*4)
+        nActualTimespan = nPowTargetTimespan*4;
 
     // Retarget
     const arith_uint256 bnPowLimit = UintToArith256(params.powLimit);
     arith_uint256 bnNew;
     bnNew.SetCompact(pindexLast->nBits);
-
-    // Adjust the difficulty based on the actual timespan
     bnNew *= nActualTimespan;
-    bnNew /= params.nPowTargetTimespan;
+    bnNew /= nPowTargetTimespan;
 
-    // Prevent the difficulty from going below the minimum or above the maximum allowed
     if (bnNew > bnPowLimit)
         bnNew = bnPowLimit;
 
-    // Return the new compact difficulty
     return bnNew.GetCompact();
 }
 
@@ -156,49 +203,48 @@ bool PermittedDifficultyTransition(const Consensus::Params& params, int64_t heig
 {
     if (params.fPowAllowMinDifficultyBlocks) return true;
 
-    if (height % params.DifficultyAdjustmentInterval() == 0) {
-        int64_t smallest_timespan = params.nPowTargetTimespan / 4;
-        int64_t largest_timespan = params.nPowTargetTimespan * 4;
+    // Select the appropriate timespan parameter based on the current height
+    int64_t nPowTargetTimespan = (height >= params.nPowRTHeight) ? params.nPowTargetTimespan_v2 : params.nPowTargetTimespan;
 
-        const arith_uint256 pow_limit = UintToArith256(params.powLimit);
-        arith_uint256 observed_new_target;
-        observed_new_target.SetCompact(new_nbits);
+    int64_t smallest_timespan = nPowTargetTimespan / 4;
+    int64_t largest_timespan = nPowTargetTimespan * 4;
 
-        // Calculate the largest difficulty value possible
-        arith_uint256 largest_difficulty_target;
-        largest_difficulty_target.SetCompact(old_nbits);
-        largest_difficulty_target *= largest_timespan;
-        largest_difficulty_target /= params.nPowTargetTimespan;
+    const arith_uint256 pow_limit = UintToArith256(params.powLimit);
+    arith_uint256 observed_new_target;
+    observed_new_target.SetCompact(new_nbits);
 
-        if (largest_difficulty_target > pow_limit) {
-            largest_difficulty_target = pow_limit;
-        }
+    // Calculate the largest difficulty value possible
+    arith_uint256 largest_difficulty_target;
+    largest_difficulty_target.SetCompact(old_nbits);
+    largest_difficulty_target *= largest_timespan;
+    largest_difficulty_target /= nPowTargetTimespan;
 
-        // Round and compare
-        arith_uint256 maximum_new_target;
-        maximum_new_target.SetCompact(largest_difficulty_target.GetCompact());
-        if (maximum_new_target < observed_new_target) return false;
-
-        // Calculate the smallest difficulty value possible
-        arith_uint256 smallest_difficulty_target;
-        smallest_difficulty_target.SetCompact(old_nbits);
-        smallest_difficulty_target *= smallest_timespan;
-        smallest_difficulty_target /= params.nPowTargetTimespan;
-
-        if (smallest_difficulty_target > pow_limit) {
-            smallest_difficulty_target = pow_limit;
-        }
-
-        // Round and compare
-        arith_uint256 minimum_new_target;
-        minimum_new_target.SetCompact(smallest_difficulty_target.GetCompact());
-        if (minimum_new_target > observed_new_target) return false;
-    } else if (old_nbits != new_nbits) {
-        return false;
+    if (largest_difficulty_target > pow_limit) {
+        largest_difficulty_target = pow_limit;
     }
+
+    // Round and compare
+    arith_uint256 maximum_new_target;
+    maximum_new_target.SetCompact(largest_difficulty_target.GetCompact());
+    if (maximum_new_target < observed_new_target) return false;
+
+    // Calculate the smallest difficulty value possible
+    arith_uint256 smallest_difficulty_target;
+    smallest_difficulty_target.SetCompact(old_nbits);
+    smallest_difficulty_target *= smallest_timespan;
+    smallest_difficulty_target /= nPowTargetTimespan;
+
+    if (smallest_difficulty_target > pow_limit) {
+        smallest_difficulty_target = pow_limit;
+    }
+
+    // Round and compare
+    arith_uint256 minimum_new_target;
+    minimum_new_target.SetCompact(smallest_difficulty_target.GetCompact());
+    if (minimum_new_target > observed_new_target) return false;
+
     return true;
 }
-
 
 bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params& params)
 {

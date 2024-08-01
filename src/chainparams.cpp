@@ -180,7 +180,7 @@ public:
         consensus.nGovernanceFilterElements = 20000;
         consensus.nMasternodeMinimumConfirmations = 15;
         consensus.BIP34Height = true;
-        consensus.BIP34Hash = uint256S("0x");
+        consensus.BIP34Hash = uint256S("0x00000f2db18943ba05cc0d7c4ac5b6b462b40719f8e2c4fca9dfb494e3354a0f");
         consensus.BIP65Height = true;
         consensus.BIP66Height = true;
         consensus.BIP147Height = true;
@@ -188,7 +188,7 @@ public:
         consensus.DIP0001Height = 200;
         consensus.DIP0003Height = 250;
         consensus.DIP0003EnforcementHeight = 260;
-        consensus.DIP0003EnforcementHash = uint256S("");
+        consensus.DIP0003EnforcementHash = uint256S("0x000009cd0dc029325c7e04411bb016dc8bacd84e829f95d09d5fb00633d40b43");
         consensus.DIP0008Height = 270;
         consensus.BRRHeight = 280;
         consensus.DIP0020Height = 300;
@@ -196,11 +196,12 @@ public:
         consensus.DIP0024QuorumsHeight = 360;
         consensus.V19Height = 370;
         consensus.MinBIP9WarningHeight = 370 + 1008; // V19 activation height + miner confirmation window
-        consensus.nPowRTHeight = 18000;
+        consensus.nPowRTHeight = 17200;
         consensus.nDifficultyAdjustmentRange = 1000; // Number of blocks for target average calculation.
         consensus.nHeightInterval = 10000; // Interval for different adjustment logic
         consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 20
         consensus.nPowTargetTimespan = 1.4 * 24 * 60 * 60; // 1.4 days
+        consensus.nPowTargetTimespan_v2 = 24 * 60 * 60; // 1 days
         consensus.nPowTargetSpacing = 2 * 60; // 2 minutes
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
@@ -219,8 +220,8 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_V20].nFalloffCoeff = 5;            // this corresponds to 10 periods
 
         consensus.vDeployments[Consensus::DEPLOYMENT_MN_RR].bit = 10;
-        consensus.vDeployments[Consensus::DEPLOYMENT_MN_RR].nStartTime = 1720724400;   // July 11, 2024
-        consensus.vDeployments[Consensus::DEPLOYMENT_MN_RR].nTimeout = 1783796400; // July 11, 2026
+        consensus.vDeployments[Consensus::DEPLOYMENT_MN_RR].nStartTime = 1722578400;   // August 2, 2024
+        consensus.vDeployments[Consensus::DEPLOYMENT_MN_RR].nTimeout = 1785650400; // August 2, 2026
         // NOTE: nWindowSize for MN_RR __MUST__ be greater than or equal to nSuperblockMaturityWindow for CSuperblock::GetPaymentsLimit() to work correctly
         consensus.vDeployments[Consensus::DEPLOYMENT_MN_RR].nWindowSize = 800;
         consensus.vDeployments[Consensus::DEPLOYMENT_MN_RR].nThresholdStart = 640;     // 80% of 800
@@ -371,6 +372,7 @@ public:
         consensus.nHeightInterval = 100; // Interval for different adjustment logic
         consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 20
         consensus.nPowTargetTimespan = 1.4 * 24 * 60 * 60; // 1.4 days
+        consensus.nPowTargetTimespan_v2 = 2 * 24 * 60 * 60; // 2 days
         consensus.nPowTargetSpacing = 2 * 60; // 2 minutes
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = false;
@@ -533,6 +535,7 @@ public:
         consensus.nHeightInterval = 100; // Interval for different adjustment logic
         consensus.powLimit = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 1
         consensus.nPowTargetTimespan = 24 * 60 * 60; // zip: 1 day
+        consensus.nPowTargetTimespan_v2 = 2 * 24 * 60 * 60; // 2 days
         consensus.nPowTargetSpacing = 2.5 * 60; // zip: 2.5 minutes
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = false;
@@ -772,6 +775,7 @@ public:
         consensus.nHeightInterval = 100; // Interval for different adjustment logic
         consensus.powLimit = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 1
         consensus.nPowTargetTimespan = 24 * 60 * 60; // zip: 1 day
+        consensus.nPowTargetTimespan_v2 = 2 * 24 * 60 * 60; // 2 days
         consensus.nPowTargetSpacing = 2.5 * 60; // zip: 2.5 minutes
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = true;

@@ -196,7 +196,7 @@ public:
         consensus.DIP0024QuorumsHeight = 360;
         consensus.V19Height = 370;
         consensus.MinBIP9WarningHeight = 370 + 1008; // V19 activation height + miner confirmation window
-        consensus.nPowRTHeight = 17200;
+        consensus.nPowRTHeight = 17040;
         consensus.nDifficultyAdjustmentRange = 1000; // Number of blocks for target average calculation.
         consensus.nHeightInterval = 10000; // Interval for different adjustment logic
         consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 20

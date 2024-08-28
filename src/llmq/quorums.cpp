@@ -600,7 +600,7 @@ std::vector<CQuorumCPtr> CQuorumManager::ScanQuorums(Consensus::LLMQType llmqTyp
     }
 
     const size_t nCountResult{vecResultQuorums.size()};
-    if (nCountResult > 0) {
+    if (nCountResult >= 0) {
         LOCK(cs_scan_quorums);
         // Don't cache more than keepOldConnections elements
         // because signing by old quorums requires the exact quorum hash

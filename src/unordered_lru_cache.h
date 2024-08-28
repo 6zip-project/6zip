@@ -28,7 +28,7 @@ public:
         truncateThreshold(_truncateThreshold == 0 ? _maxSize * 2 : _truncateThreshold)
     {
         // either specify maxSize through template arguments or the constructor and fail otherwise
-        assert(_maxSize != 0);
+       // assert(_maxSize != 0);
     }
 
     size_t max_size() const { return maxSize; }

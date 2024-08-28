@@ -69,6 +69,7 @@ The Zip Core repo's [root README](/README.md) contains relevant information on t
 ### Miscellaneous
 - [Assets Attribution](assets-attribution.md)
 - [zip.conf Configuration File](zip-conf.md)
+- [CJDNS Support](cjdns.md)
 - [Files](files.md)
 - [Fuzz-testing](fuzzing.md)
 - [I2P Support](i2p.md)

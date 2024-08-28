@@ -24,7 +24,7 @@ The multiprocess feature requires [Cap'n Proto](https://capnproto.org/) and [lib
 ```
 cd <ZIP_SOURCE_DIRECTORY>
 make -C depends NO_QT=1 MULTIPROCESS=1
-./configure --prefix=$PWD/depends/x86_64-pc-linux-gnu
+CONFIG_SITE=$PWD/depends/x86_64-pc-linux-gnu/share/config.site ./configure
 make
 src/zip-node -regtest -printtoconsole -debug=ipc
 ZIPD=zip-node test/functional/test_runner.py

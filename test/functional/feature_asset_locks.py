@@ -23,7 +23,7 @@ from test_framework.messages import (
     CTransaction,
     CTxIn,
     CTxOut,
-    FromHex,
+    tx_from_hex,
     hash256,
     ser_string,
 )
@@ -84,7 +84,7 @@ class AssetLocksTest(ZipTestFramework):
         lock_tx.vExtraPayload = lockTx_payload.serialize()
 
         lock_tx = node_wallet.signrawtransactionwithwallet(lock_tx.serialize().hex())
-        return FromHex(CTransaction(), lock_tx["hex"])
+        return tx_from_hex(lock_tx["hex"])
 
 
     def create_assetunlock(self, index, withdrawal, pubkey=None, fee=tiny_amount):
@@ -119,7 +119,7 @@ class AssetLocksTest(ZipTestFramework):
         unlock_tx.calc_sha256()
         msgHash = format(unlock_tx.sha256, '064x')
 
-        recsig = self.get_recovered_sig(request_id, msgHash, llmq_type=llmq_type_test)
+        recsig = self.get_recovered_sig(request_id, msgHash, llmq_type=llmq_type_test, use_platformsign=True)
 
         unlockTx_payload.quorumSig = bytearray.fromhex(recsig["sig"])
         unlock_tx.vExtraPayload = unlockTx_payload.serialize()
@@ -175,7 +175,7 @@ class AssetLocksTest(ZipTestFramework):
         block = create_block(tip, cbb, block_time, version=4)
         # Add quorum commitments from block template
         for tx_obj in gbt["transactions"]:
-            tx = FromHex(CTransaction(), tx_obj["data"])
+            tx = tx_from_hex(tx_obj["data"])
             if tx.nType == 6:
                 block.vtx.append(tx)
         for tx in txes:

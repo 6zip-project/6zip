@@ -53,11 +53,11 @@ Paths
 
 All three configurations assume several paths that might need to be adjusted.
 
-Binary:              `/usr/bin/zipd`
-Configuration file:  `/etc/zipcore/zip.conf`
-Data directory:      `/var/lib/zipd`
-PID file:            `/var/run/zipd/zipd.pid` (OpenRC and Upstart) or `/run/zipd/zipd.pid` (systemd)
-Lock file:           `/var/lock/subsys/zipd` (CentOS)
+    Binary:              /usr/bin/zipd
+    Configuration file:  /etc/zipcore/zip.conf
+    Data directory:      /var/lib/zipd
+    PID file:            /var/run/zipd/zipd.pid (OpenRC and Upstart) or /run/zipd/zipd.pid (systemd)
+    Lock file:           /var/lock/subsys/zipd (CentOS)
 
 The PID directory (if applicable) and data directory should both be owned by the
 zipcore user and group. It is advised for security reasons to make the
@@ -83,10 +83,10 @@ OpenRC).
 
 ### macOS
 
-Binary:              `/usr/local/bin/zipd`
-Configuration file:  `~/Library/Application Support/ZipCore/zip.conf`
-Data directory:      `~/Library/Application Support/ZipCore`
-Lock file:           `~/Library/Application Support/ZipCore/.lock`
+    Binary:              /usr/local/bin/zipd
+    Configuration file:  ~/Library/Application Support/ZipCore/zip.conf
+    Data directory:      ~/Library/Application Support/ZipCore
+    Lock file:           ~/Library/Application Support/ZipCore/.lock
 
 Installing Service Configuration
 -----------------------------------

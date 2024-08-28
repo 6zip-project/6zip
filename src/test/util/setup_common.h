@@ -9,18 +9,20 @@
 #include <chainparamsbase.h>
 #include <fs.h>
 #include <key.h>
+#include <util/system.h>
 #include <node/context.h>
 #include <pubkey.h>
 #include <random.h>
 #include <txmempool.h>
 #include <util/check.h>
-#include <util/system.h>
 #include <util/string.h>
 #include <util/vector.h>
 
 #include <stdexcept>
 #include <type_traits>
 #include <vector>
+
+class CChainParams;
 
 /** This is connected to the logger. Can be used to redirect logs to any other log */
 extern const std::function<void(const std::string&)> G_TEST_LOG_FUN;
@@ -73,8 +75,8 @@ static inline bool InsecureRandBool() { return g_insecure_rand_ctx.randbool(); }
 
 static constexpr CAmount CENT{1000000};
 
-/* Initialize Zip-specific components after chainstate initialization */
-void ZipTestSetup(NodeContext& node);
+/* Initialize 6Zip-specific components after chainstate initialization */
+void ZipTestSetup(NodeContext& node, const CChainParams& chainparams);
 void ZipTestSetupClose(NodeContext& node);
 
 /** Basic testing setup.
@@ -88,6 +90,7 @@ struct BasicTestingSetup {
 
     std::unique_ptr<CConnman> connman;
     const fs::path m_path_root;
+    ArgsManager m_args;
 };
 
 /** Testing setup that performs all steps up until right before

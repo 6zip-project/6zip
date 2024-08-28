@@ -1,5 +1,5 @@
-FROM ubuntu:focal
-LABEL maintainer="Zip Developers <dev@zip.online>"
+FROM ubuntu:jammy
+LABEL maintainer="6Zip Developers <dev@6zip.online>"
 LABEL description="Dockerised ZipCore"
 
 ARG USER_ID
@@ -33,6 +33,14 @@ RUN mach=$(uname -m) \
       && rm -rf /tmp/zipcore* \
       && chmod a+x /usr/local/bin/*
 
+RUN apt-get update && \
+    apt list --installed && \
+    apt-get -y purge \
+    wget \
+    ca-certificates \
+    && apt-get -y autoremove \
+    && rm -rf /var/lib/apt/lists/*
+
 USER zip
 
 VOLUME ["/home/zip"]
@@ -40,6 +48,6 @@ VOLUME ["/home/zip"]
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
-EXPOSE 9998 9999 19998 19999
+EXPOSE 28081 28080 38081 38080
 
 WORKDIR /home/zip

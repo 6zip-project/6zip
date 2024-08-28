@@ -1,4 +1,4 @@
-// Copyright (c) 2009-2019 The Bitcoin Core developers
+// Copyright (c) 2009-2020 The Bitcoin Core developers
 // Copyright (c) 2014-2024 The Dash Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
@@ -12,7 +12,6 @@
 #include <qt/test/apptests.h>
 #include <qt/test/rpcnestedtests.h>
 #include <qt/test/uritests.h>
-#include <qt/test/compattests.h>
 #include <qt/test/trafficgraphdatatests.h>
 #include <test/util/setup_common.h>
 
@@ -75,8 +74,6 @@ int main(int argc, char* argv[])
         setenv("QT_QPA_PLATFORM", "minimal", /* overwrite */ 0);
     #endif
 
-    // Don't remove this, it's needed to access
-    // QApplication:: and QCoreApplication:: in the tests
     BitcoinApplication app;
     app.setNode(*node);
     app.setApplicationName("Zip-Qt-test");
@@ -92,10 +89,6 @@ int main(int argc, char* argv[])
     }
     RPCNestedTests test3(app.node());
     if (QTest::qExec(&test3) != 0) {
-        fInvalid = true;
-    }
-    CompatTests test4;
-    if (QTest::qExec(&test4) != 0) {
         fInvalid = true;
     }
 #ifdef ENABLE_WALLET

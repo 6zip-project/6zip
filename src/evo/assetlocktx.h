@@ -14,9 +14,13 @@
 
 #include <optional>
 
+class BlockManager;
 class CBlockIndex;
 class CRangesSet;
 class TxValidationState;
+namespace llmq {
+class CQuorumManager;
+} // namespace llmq
 
 class CAssetLockPayload
 {
@@ -127,7 +131,7 @@ public:
         return obj;
     }
 
-    bool VerifySig(const uint256& msgHash, gsl::not_null<const CBlockIndex*> pindexTip, TxValidationState& state) const;
+    bool VerifySig(const llmq::CQuorumManager& qman, const uint256& msgHash, gsl::not_null<const CBlockIndex*> pindexTip, TxValidationState& state) const;
 
     // getters
     uint8_t getVersion() const
@@ -169,8 +173,8 @@ public:
 };
 
 bool CheckAssetLockTx(const CTransaction& tx, TxValidationState& state);
-bool CheckAssetUnlockTx(const CTransaction& tx, gsl::not_null<const CBlockIndex*> pindexPrev, const std::optional<CRangesSet>& indexes, TxValidationState& state);
-bool CheckAssetLockUnlockTx(const CTransaction& tx, gsl::not_null<const CBlockIndex*> pindexPrev, const std::optional<CRangesSet>& indexes, TxValidationState& state);
+bool CheckAssetUnlockTx(const BlockManager& blockman, const llmq::CQuorumManager& qman, const CTransaction& tx, gsl::not_null<const CBlockIndex*> pindexPrev, const std::optional<CRangesSet>& indexes, TxValidationState& state);
+bool CheckAssetLockUnlockTx(const BlockManager& blockman, const llmq::CQuorumManager& qman, const CTransaction& tx, gsl::not_null<const CBlockIndex*> pindexPrev, const std::optional<CRangesSet>& indexes, TxValidationState& state);
 bool GetAssetUnlockFee(const CTransaction& tx, CAmount& txfee, TxValidationState& state);
 
 #endif // BITCOIN_EVO_ASSETLOCKTX_H

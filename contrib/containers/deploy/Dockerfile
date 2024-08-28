@@ -1,6 +1,6 @@
 FROM phusion/baseimage:focal-1.0.0
-LABEL maintainer="Zip Developers <dev@zip.online>"
-LABEL description="Dockerised ZipCore, built from Travis"
+LABEL maintainer="6Zip Developers <dev@6zip.online>"
+LABEL description="Dockerised 6ZipCore, built from CI"
 
 ARG USER_ID
 ARG GROUP_ID
@@ -23,6 +23,6 @@ USER zip
 
 VOLUME ["/home/zip"]
 
-EXPOSE 9998 9999 19998 19999
+EXPOSE 28081 28080 38081 38080
 
 WORKDIR /home/zip

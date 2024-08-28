@@ -222,20 +222,20 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_V20].nFalloffCoeff = 5;            // this corresponds to 10 periods
 
         consensus.vDeployments[Consensus::DEPLOYMENT_MN_RR].bit = 10;
-        consensus.vDeployments[Consensus::DEPLOYMENT_MN_RR].nStartTime = 1722578400;   // August 2, 2024
-        consensus.vDeployments[Consensus::DEPLOYMENT_MN_RR].nTimeout = 1785650400; // August 2, 2026
+        consensus.vDeployments[Consensus::DEPLOYMENT_MN_RR].nStartTime = 1725494400;   // September 5, 2024
+        consensus.vDeployments[Consensus::DEPLOYMENT_MN_RR].nTimeout = 1788566400; // September 5, 2026
         // NOTE: nWindowSize for MN_RR __MUST__ be greater than or equal to nSuperblockMaturityWindow for CSuperblock::GetPaymentsLimit() to work correctly
-        consensus.vDeployments[Consensus::DEPLOYMENT_MN_RR].nWindowSize = 800;
-        consensus.vDeployments[Consensus::DEPLOYMENT_MN_RR].nThresholdStart = 640;     // 80% of 800
-        consensus.vDeployments[Consensus::DEPLOYMENT_MN_RR].nThresholdMin = 480;       // 60% of 800
+        consensus.vDeployments[Consensus::DEPLOYMENT_MN_RR].nWindowSize = 4032;
+        consensus.vDeployments[Consensus::DEPLOYMENT_MN_RR].nThresholdStart = 3226;     // 80% of 4032
+        consensus.vDeployments[Consensus::DEPLOYMENT_MN_RR].nThresholdMin = 2420;       // 60% of 4032
         consensus.vDeployments[Consensus::DEPLOYMENT_MN_RR].nFalloffCoeff = 5;          // this corresponds to 10 periods
         consensus.vDeployments[Consensus::DEPLOYMENT_MN_RR].useEHF = true;
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000000000300030"); // 2
+        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000081ac1e5bf2f3aa"); // 33522
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0x00000d568d3528c53fc91a6bb35f04fac3813bd4bbf62536015257751c40fd88"); // 2
+        consensus.defaultAssumeValid = uint256S("0x000000000276f8e8a1b2d52994d6e7210900fafa13deff7697d7488755ec867a"); // 33522
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -310,8 +310,15 @@ public:
 
         checkpointData = {
             {
-                {0, uint256S("0x00000b0896b55ada0b830f4ae96b81344119008714af713b0b693dc0ca92df6f")},
-                {2, uint256S("0x00000d568d3528c53fc91a6bb35f04fac3813bd4bbf62536015257751c40fd88")},
+                {1500,  uint256S("0x000005e79733cb47630730755eb6bcf17bbbec1302465bd5965b14a6d21ccbaf")},
+                {4991,  uint256S("0x0000000da315f48a9f2452226e566c1ebebe9b13c0cf979778a47db608660f6f")},
+                {9918,  uint256S("0x0000000056dacee969e7360341367081b2bb497c9e872b1ba73d59b8b71f295d")},
+                {16912, uint256S("0x00000000000b50af48b261ba3900d5c617e47fd1a9a3a71b99a7fa889d28a784")},
+                {17040, uint256S("0x000000000021668df40b9129f5c27120dc95691faa87556ad1e16b337eb7cc6f")},
+                {23912, uint256S("0x00000000003dee3a01d5301b4373cdb8ba40ca9ebc83f236619fd96b4375df8d")},
+                {33521, uint256S("0x00000000024d2f8fcc22dbed0d8eec6bd3d8adc6d8101b6006ba1c683b8e51ef")},
+
+
             }
         };
 
@@ -319,12 +326,12 @@ public:
          // TODO to be specified in a future patch.
         };
 
-        // getchaintxstats 2
+        // getchaintxstats 33521
         chainTxData = ChainTxData{
-                1721088934, // * UNIX timestamp of last known number of transactions (Block 1969000)
-                3,   // * total number of transactions between genesis and that timestamp
+                1724848107, // * UNIX timestamp of last known number of transactions (Block 1969000)
+                86433,   // * total number of transactions between genesis and that timestamp
                             //   (the tx=... number in the ChainStateFlushed debug.log lines)
-                1,      // * estimated number of transactions per second after that timestamp
+                0.0229972983169957,      // * estimated number of transactions per second after that timestamp
         };
     }
 };

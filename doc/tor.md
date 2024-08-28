@@ -211,26 +211,21 @@ as well, use `discover` instead:
 
 	./zipd ... -discover
 
-and open port 9999 on your firewall (or use port mapping, i.e., `-upnp` or `-natpmp`).
+and open port 28080 on your firewall (or use port mapping, i.e., `-upnp` or `-natpmp`).
 
 If you only want to use Tor to reach .onion addresses, but not use it as a proxy
 for normal IPv4/IPv6 communication, use:
 
-    ./zipd -onion=127.0.0.1:9050 -externalip=7zvj7a2imdgkdbg4f2dryd5rgtrn7upivr5eeij4cicjh65pooxeshid.onion -discover
+    ./zipd -onion=127.0.0.1:9050 -externalip=dqqooenazp35ny6ova4yg4gpg6jvgjqz6qnpvns6rjz34y4xdsrh6gad.onion -discover
 
 
 ## 3.1. List of known Zip Core Tor relays
 
-cmhr5r3lqhy7ic2ebeil66ftcz5u62zq5qhbfdz53l6sqxljh7zxntyd.onion
-k532fqvgzqotj6epfw3rfc377elrj3td47ztad2tkn6vwnw6nhxacrqd.onion
-v7ttoiov7rc5aut64nfomyfwxt424ihufwvr5ilf7moeg3fwibjpjcqd.onion
-snu2xaql3crh2b4t6g2wxemgrpzmaxfxla4tua63bnp2phhxwr6hzzid.onion
-fq63mjtyamklhxtskvvdf7tcdckwvtoo7kb5eazi34tsxuvexveyroad.onion
-5v5lgddolcidtt2qmhmvyka2ewht4mkmmj73tfwuimlckgmqb5lthtid.onion
+dqqooenazp35ny6ova4yg4gpg6jvgjqz6qnpvns6rjz34y4xdsrh6gad.onion
 
 You can easily validate which of these are still online via nc such as
 ```
-nc -v -x 127.0.0.1:9050 -z *.onion 9999
+nc -v -x 127.0.0.1:9050 -z *.onion 28080
 ```
 
 ## 4. Privacy recommendations

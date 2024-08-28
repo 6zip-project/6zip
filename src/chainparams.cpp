@@ -222,8 +222,8 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_V20].nFalloffCoeff = 5;            // this corresponds to 10 periods
 
         consensus.vDeployments[Consensus::DEPLOYMENT_MN_RR].bit = 10;
-        consensus.vDeployments[Consensus::DEPLOYMENT_MN_RR].nStartTime = 1725494400;   // September 5, 2024
-        consensus.vDeployments[Consensus::DEPLOYMENT_MN_RR].nTimeout = 1788566400; // September 5, 2026
+        consensus.vDeployments[Consensus::DEPLOYMENT_MN_RR].nStartTime = 1722578400;   // August 2, 2024
+        consensus.vDeployments[Consensus::DEPLOYMENT_MN_RR].nTimeout = 1785650400; // August 2, 2026
         // NOTE: nWindowSize for MN_RR __MUST__ be greater than or equal to nSuperblockMaturityWindow for CSuperblock::GetPaymentsLimit() to work correctly
         consensus.vDeployments[Consensus::DEPLOYMENT_MN_RR].nWindowSize = 4032;
         consensus.vDeployments[Consensus::DEPLOYMENT_MN_RR].nThresholdStart = 3226;     // 80% of 4032

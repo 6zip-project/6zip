@@ -1,33 +1,33 @@
-Zip Core staging tree
+6Zip Core staging tree
 ===========================
 
 |CI|master|develop|
 |-|-|-|
-|Gitlab|[![Build Status](https://gitlab.com/6zip-online/zip/badges/master/pipeline.svg)](https://gitlab.com/6zip-online/zip/-/tree/master)|[![Build Status](https://gitlab.com/6zip-online/zip/badges/develop/pipeline.svg)](https://gitlab.com/6zip-online/zip/-/tree/develop)|
+|Gitlab|[![Build Status](https://gitlab.com/6zip-online/6zip/badges/master/pipeline.svg)](https://gitlab.com/6zip-online/zip/-/tree/master)|[![Build Status](https://gitlab.com/6zip-online/zip/badges/develop/pipeline.svg)](https://gitlab.com/6zip-online/6zip/-/tree/master)|
 
 https://6zip.online
 
-For an immediately usable, binary version of the Zip Core software, see
+For an immediately usable, binary version of the 6Zip Core software, see
 https://6zip.online/downloads/.
 
-Further information about Zip Core is available in the [doc folder](/doc).
+Further information about 6Zip Core is available in the [doc folder](/doc).
 
-What is Zip?
+What is 6Zip?
 -------------
 
-Zip is an experimental digital currency that enables instant, private
-payments to anyone, anywhere in the world. Zip uses peer-to-peer technology
-to operate with no central authority: managing transactions and issuing money
-are carried out collectively by the network. Zip Core is the name of the open
-source software which enables the use of this currency.
+6ZIP is an experimental digital project that enables instant, private
+payments to anyone, anywhere in the world and it is the next-generation blockchain project 
+designed to bring unprecedented flexibility, security, and economic stability to the world of cryptocurrency. 
+Our mission is to create a blockchain network that not only meets the demands of today but also adapts to the evolving needs 
+of the future. At the heart of 6ZIP lies our revolutionary reward system and the unique HashX7 hashing 
+algorithm, which set us apart from traditional blockchain models.
 
-
-For more information read the original Zip whitepaper.
+For more information read the original 6Zip whitepaper.
 
 License
 -------
 
-Zip Core is released under the terms of the MIT license. See [COPYING](COPYING) for more
+6Zip Core is released under the terms of the MIT license. See [COPYING](COPYING) for more
 information or see https://opensource.org/licenses/MIT.
 
 Development Process
@@ -35,7 +35,7 @@ Development Process
 
 The `master` branch is meant to be stable. Development is normally done in separate branches.
 [Tags](https://github.com/6zip-online/6zip/tags) are created to indicate new official,
-stable release versions of Zip Core.
+stable release versions of 6Zip Core.
 
 The `develop` branch is regularly built (see doc/build-*.md for instructions) and tested, but is not guaranteed to be
 completely stable.
@@ -76,7 +76,7 @@ Translations
 ------------
 
 Changes to translations as well as new translations can be submitted to
-[Zip Core's Transifex page](https://www.transifex.com/projects/p/zip/).
+[6Zip Core's Transifex page](https://www.transifex.com/projects/p/6zip/).
 
 Translations are periodically pulled from Transifex and merged into the git repository. See the
 [translation process](doc/translation_process.md) for details on how this works.

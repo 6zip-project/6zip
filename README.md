@@ -5,10 +5,10 @@ Zip Core staging tree
 |-|-|-|
 |Gitlab|[![Build Status](https://gitlab.com/6zip-online/zip/badges/master/pipeline.svg)](https://gitlab.com/6zip-online/zip/-/tree/master)|[![Build Status](https://gitlab.com/6zip-online/zip/badges/develop/pipeline.svg)](https://gitlab.com/6zip-online/zip/-/tree/develop)|
 
-https://www.zip.online
+https://6zip.online
 
 For an immediately usable, binary version of the Zip Core software, see
-https://www.zip.online/downloads/.
+https://6zip.online/downloads/.
 
 Further information about Zip Core is available in the [doc folder](/doc).
 
@@ -34,7 +34,7 @@ Development Process
 -------------------
 
 The `master` branch is meant to be stable. Development is normally done in separate branches.
-[Tags](https://github.com/6zip-online/zip/tags) are created to indicate new official,
+[Tags](https://github.com/6zip-online/6zip/tags) are created to indicate new official,
 stable release versions of Zip Core.
 
 The `develop` branch is regularly built (see doc/build-*.md for instructions) and tested, but is not guaranteed to be
